@@ -1,0 +1,111 @@
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+export const SITE = {
+  logo: `${BASE}/tripo/tripo-logo.png`,
+  audio: `${BASE}/tripo/tripo-audio.mp3`,
+};
+
+export const TRIPO_ASSETS = {
+  model: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1808/new/section-model-generator/step-gen-3d.webp",
+  texture: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1280/new/section-texturing/step-input.webp",
+  brush: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1014/new/section-texturing/magic-brush.webp",
+  rigging: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1280/new/section-rigging/step-rigging.png",
+  advantage: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1468/new/section-advantages/effect-1.webp",
+  communityLeft: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1398/new/section-community/part-left.webp",
+  communityRight: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1486/new/section-community/part-right.webp",
+};
+
+export const hero = {
+  eyebrow: "AI 3D PRINTING · IMAGE TO 3D · TEXT TO 3D",
+  titleLines: ["Get Production-Ready", "3D Print Files", "from Inspiration."],
+  description:
+    "The first step of 3D printing is a printable 3D model. Tripo turns text, images and sketches into production-ready 3D assets in seconds, with clean topology and a workflow built for real creation.",
+  primary: "CREATE MODELS",
+  secondary: "SEE PRINT EXAMPLES",
+  metrics: [
+    { value: "1 MIN", label: "FAST MODEL GENERATION" },
+    { value: "PRINT-READY", label: "CLEAN, STABLE GEOMETRY" },
+  ],
+};
+
+export const statement = {
+  kicker: "TURN VISION INTO FINAL PRINTS",
+  line1: "Tripo turns creative ideas into",
+  line2: "production-ready 3D assets through AI.",
+  body: "From image and text generation to clean topology, texturing and rigging, one workspace connects inspiration to usable 3D output.",
+  marquee: ["CREATE", "PRINT", "ITERATE", "IMPACT"],
+};
+
+export const facts = [
+  { value: "6.5M+", label: "Creators worldwide" },
+  { value: "40K+", label: "Active developers" },
+  { value: "700+", label: "Industry clients" },
+  { value: "100M+", label: "3D models created" },
+];
+
+export const cases = [
+  {
+    kicker: "PERSONALIZED JEWELRY",
+    title: "One-pass modeling with sharp, detailed precision.",
+    body: "Generate clean, high-precision forms from reference images while keeping wall thickness and geometry suitable for production workflows.",
+    image: TRIPO_ASSETS.model,
+  },
+  {
+    kicker: "ART SCULPTURE",
+    title: "Intricate geometry with stronger structural integrity.",
+    body: "Move from concept art to complex printable forms with cleaner surfaces and fewer structural repair steps.",
+    image: TRIPO_ASSETS.advantage,
+  },
+  {
+    kicker: "TABLETOP MINIATURES",
+    title: "Scale cohesion, stable poses and detailed characters.",
+    body: "Use text or images to create character models with a stable base, readable silhouette and detail that survives small-scale printing.",
+    image: TRIPO_ASSETS.rigging,
+  },
+];
+
+export const capabilities = [
+  {
+    number: "01",
+    short: "IMAGE TO 3D",
+    title: "Turn image and text into 3D instantly",
+    body: "Upload an image or describe what you want in plain language. Tripo generates a usable 3D asset without a traditional modeling learning curve.",
+  },
+  {
+    number: "02",
+    short: "PRINT SUCCESS",
+    title: "Increase 3D printing success rate",
+    body: "Cleaner, more robust geometry reduces the amount of manual repair needed before slicing and printing.",
+  },
+  {
+    number: "03",
+    short: "CLEAN TOPOLOGY",
+    title: "Less error, less repair",
+    body: "Tripo optimizes geometry and topology so assets move through downstream production with fewer structural issues.",
+  },
+  {
+    number: "04",
+    short: "HIGH FIDELITY",
+    title: "Lifelike detail with a natural look",
+    body: "High-detail generation preserves important forms, surfaces and small features for closer visual fidelity.",
+  },
+];
+
+export const formats = ["STL", "OBJ", "3MF", "FBX", "GLB", "USDZ"];
+
+export const helixCards = [
+  { eyebrow: "01", title: "Image to 3D", body: "Turn a single image into a structured 3D starting point." },
+  { eyebrow: "02", title: "Text to 3D", body: "Describe the object, style and pose in natural language." },
+  { eyebrow: "03", title: "Segmentation", body: "Split complex models into editable, structured parts." },
+  { eyebrow: "04", title: "AI Texturing", body: "Apply high-resolution PBR-ready textures and local repainting." },
+  { eyebrow: "05", title: "Rigging", body: "Generate skeletons and skin weights for animation-ready assets." },
+  { eyebrow: "06", title: "Clean topology", body: "Prepare geometry for a more reliable production workflow." },
+  { eyebrow: "07", title: "High detail", body: "Preserve small forms and surface information." },
+  { eyebrow: "08", title: "Print workflows", body: "Export assets into formats used by common print pipelines." },
+  { eyebrow: "09", title: "One workspace", body: "Connect generation, editing and output in a single workflow." },
+];
+
+export const formatCards = formats.map((title) => ({
+  title,
+  text: `${title} output for downstream 3D production and review workflows.`,
+}));
