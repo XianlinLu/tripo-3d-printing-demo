@@ -5,9 +5,6 @@ import { useEffect, useState } from "react";
 import { AudioToggle } from "./AudioToggle";
 import { SITE } from "./content";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const MENU_LOGO = `${BASE}/tripo/visuals/menu-logo.png`;
-
 export function SiteNav() {
   const [open, setOpen] = useState(false);
 
@@ -23,18 +20,23 @@ export function SiteNav() {
       <header className={`site-nav ${open ? "is-menu-open" : ""}`} data-vibrate>
         <a href="#top" className="brand" aria-label="Tripo home">
           <Image
-            src={open ? MENU_LOGO : SITE.logo}
+            src={SITE.logo}
             alt="TRIPO"
             width={1046}
             height={293}
             priority
-            className={`brand-image ${open ? "brand-image-menu" : ""}`}
+            className="brand-image"
           />
         </a>
 
         <div className="nav-actions">
           <AudioToggle />
-          <a className="nav-cta" href="https://studio.tripo3d.ai/" target="_blank" rel="noreferrer">
+          <a
+            className="nav-cta"
+            href="https://studio.tripo3d.ai/"
+            target="_blank"
+            rel="noreferrer"
+          >
             TRY TRIPO WEB
           </a>
           <button
@@ -68,7 +70,7 @@ export function SiteNav() {
               onClick={() => setOpen(false)}
               aria-label="Close menu"
             >
-              MENU <span>×</span>
+              MENU <span aria-hidden="true">×</span>
             </button>
           </div>
 
@@ -79,22 +81,34 @@ export function SiteNav() {
             <a href="#stories" onClick={() => setOpen(false)}>Workflow</a>
           </nav>
 
-          <a className="menu-story-pill" href="#top" onClick={() => setOpen(false)}>
+          <a
+            className="menu-story-pill"
+            href="#top"
+            onClick={() => setOpen(false)}
+          >
             ✦ TRIPO 3D WORKFLOW
           </a>
 
           <div className="menu-drawer-bottom">
-            <div className="menu-drawer-block">
+            <div className="menu-drawer-block menu-drawer-primary-info">
               <small>CREATE WITH TRIPO</small>
-              <a href="https://studio.tripo3d.ai/" target="_blank" rel="noreferrer">
+              <a
+                href="https://studio.tripo3d.ai/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 studio.tripo3d.ai
               </a>
-              <a href="https://www.tripo3d.ai/" target="_blank" rel="noreferrer">
+              <a
+                href="https://www.tripo3d.ai/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 tripo3d.ai
               </a>
             </div>
 
-            <div className="menu-drawer-block">
+            <div className="menu-drawer-block menu-drawer-secondary-info">
               <small>RESOURCES</small>
               <div className="menu-resource-grid">
                 <a href="https://www.tripo3d.ai/" target="_blank" rel="noreferrer">Product</a>
