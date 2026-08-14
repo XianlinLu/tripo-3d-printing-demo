@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { AudioToggle } from "./AudioToggle";
 import { SITE } from "./content";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const MENU_LOGO = `${BASE}/tripo/visuals/menu-logo.png`;
+
 export function SiteNav() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -23,11 +26,16 @@ export function SiteNav() {
           <button className="menu-pill" onClick={() => setOpen(true)} aria-expanded={open}>MENU <i /><i /></button>
         </div>
       </header>
+
       <div className={`menu-overlay ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <div className="menu-overlay-top">
-          <Image src={SITE.logo} alt="TRIPO" width={472} height={128} className="menu-logo" />
-          <button className="menu-close" onClick={() => setOpen(false)}>CLOSE <span>×</span></button>
+          <Image src={MENU_LOGO} alt="TRIPO" width={1046} height={293} className="menu-logo menu-logo-exact" />
+          <button className="menu-close" onClick={() => setOpen(false)} aria-label="Close menu">
+            <span className="menu-close-label">CLOSE</span>
+            <span className="menu-close-icon">×</span>
+          </button>
         </div>
+
         <div className="menu-overlay-main">
           <nav>
             <a href="#top" onClick={() => setOpen(false)}>Home <span>01</span></a>

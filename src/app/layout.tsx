@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./visual-overrides.css";
 
 export const metadata: Metadata = {
   title: "Tripo 3D Printing — Interactive Experience",
