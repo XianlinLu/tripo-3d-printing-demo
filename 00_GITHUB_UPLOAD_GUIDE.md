@@ -1,28 +1,17 @@
-# GitHub Upload Guide
+# GitHub upload guide — final merged version
 
 Repository: `XianlinLu/tripo-3d-printing-demo`
 
-## Important
-Upload the **contents of this folder to the repository root**. Do not upload this folder as a nested subfolder.
+1. Open the repository and choose **Add file → Upload files**.
+2. Upload the **contents** of this folder to the repository root, preserving the directory structure.
+3. Replace files when the same paths already exist.
+4. Make sure `.github/workflows/pages.yml` exists. On macOS, press `Command + Shift + .` if hidden folders are not visible.
+5. Commit with: `Merge final TRIPO SEO updates 2026-08-15`.
+6. Open **Actions** and wait for `Deploy Next.js static site to Pages` to finish successfully.
+7. Open `https://xianlinlu.github.io/tripo-3d-printing-demo/` and hard refresh if needed.
 
-The repository root should contain files such as:
-
-```text
-.github/
-src/
-public/
-package.json
-next.config.ts
-README.md
-DESIGN_RATIONALE.md
-```
-
-## Browser upload
-1. Open the GitHub repository.
-2. Choose **Add file → Upload files**.
-3. Drag the contents of this folder into the upload area.
-4. On macOS, press **Command + Shift + .** in Finder if `.github` is hidden, and make sure the `.github` folder is included.
-5. Commit directly to `main` with a message such as `Deploy final TRIPO 3D demo`.
-6. In **Settings → Pages**, set **Source** to **GitHub Actions**.
-7. Open the **Actions** tab and wait for `Deploy Next.js static site to Pages` to finish.
-8. Refresh `https://xianlinlu.github.io/tripo-3d-printing-demo/`.
+Expected workflow steps include:
+- Crawl unique TRIPO Studio gallery images
+- Verify unique gallery images
+- npm run build
+- Deploy to GitHub Pages

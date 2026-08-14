@@ -1,12 +1,11 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import { SITE } from "./content";
 
 export function AudioToggle() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const rafRef = useRef(0);
   const [playing, setPlaying] = useState(false);
-  const [beat, setBeat] = useState(0);
 
   useEffect(() => {
     const audio = new Audio(SITE.audio);
@@ -14,42 +13,57 @@ export function AudioToggle() {
     audio.preload = "auto";
     audio.volume = 0.82;
     audioRef.current = audio;
-    const tick = () => {
-      if (!audio.paused) {
-        const bpm = 184.57;
-        const phase = ((audio.currentTime * bpm) / 60) % 1;
-        setBeat(Math.exp(-phase * 8));
-      } else setBeat(0);
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
+
+    const handlePlay = () => setPlaying(true);
+    const handlePause = () => setPlaying(false);
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
       audio.pause();
       audio.src = "";
+      audioRef.current = null;
     };
   }, []);
 
   const toggle = async () => {
     const audio = audioRef.current;
     if (!audio) return;
+
     if (audio.paused) {
-      try { await audio.play(); setPlaying(true); } catch { setPlaying(false); }
-    } else { audio.pause(); setPlaying(false); }
+      try {
+        await audio.play();
+      } catch {
+        setPlaying(false);
+      }
+    } else {
+      audio.pause();
+    }
   };
 
   return (
     <button
-      className={`sound-orb ${playing ? "is-playing" : ""}`}
+      className={`sound-orb ${playing ? "is-playing" : "is-muted"}`}
       onClick={toggle}
-      aria-label={playing ? "Pause site audio" : "Play site audio"}
-      style={{ "--beat": beat } as React.CSSProperties}
+      aria-label={playing ? "Turn sound off" : "Turn sound on"}
+      aria-pressed={playing}
       title={playing ? "Sound on" : "Sound off"}
     >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M5.2 10.2v3.6h3.1l3.4 2.8V7.4l-3.4 2.8H5.2Z" />
-        <path className="sound-wave" d="M14.6 9.1c.9.7 1.4 1.7 1.4 2.9s-.5 2.2-1.4 2.9M17 7c1.5 1.2 2.3 2.9 2.3 5s-.8 3.8-2.3 5" />
-      </svg>
+      {playing ? (
+        <svg className="sound-icon sound-icon-on" viewBox="0 0 24 24" aria-hidden="true">
+          <path className="sound-speaker" d="M4.8 9.3v5.4h3.5l4.4 3.45V5.85L8.3 9.3H4.8Z" />
+          <path className="sound-wave" d="M15.1 8.45c1.05.82 1.65 2.02 1.65 3.55 0 1.53-.6 2.73-1.65 3.55" />
+          <path className="sound-wave sound-wave-outer" d="M17.45 6.35c1.72 1.42 2.7 3.25 2.7 5.65s-.98 4.23-2.7 5.65" />
+        </svg>
+      ) : (
+        <svg className="sound-icon sound-icon-off" viewBox="0 0 24 24" aria-hidden="true">
+          <path className="sound-speaker" d="M4.8 9.3v5.4h3.5l4.4 3.45V5.85L8.3 9.3H4.8Z" />
+          <path className="sound-muted-slash" d="M6.1 5.6 18.2 18.4" />
+        </svg>
+      )}
     </button>
   );
 }

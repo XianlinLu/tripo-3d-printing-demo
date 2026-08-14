@@ -21,8 +21,8 @@ export function BlurText({ text, as = "div", className = "", delay = 0, stagger 
       onComplete: () => gsap.set(chars, { clearProps: "filter,willChange" }),
     });
     return () => {
-  tween.kill();
-};
+      tween.kill();
+    };
   }, [text, delay, stagger]);
   return <Tag ref={ref as never} className={className} aria-label={text}>{Array.from(text).map((ch, i) => <span data-char key={`${ch}-${i}`} className="blur-char">{ch === " " ? "\u00A0" : ch}</span>)}</Tag>;
 }

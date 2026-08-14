@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./visual-overrides.css";
 import "./seo-v2.css";
+import "./sound-toggle-v2.css";
 
 export const metadata: Metadata = {
   title: "Tripo 3D Printing — Interactive Experience",
