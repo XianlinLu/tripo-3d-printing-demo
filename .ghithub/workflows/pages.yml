@@ -30,19 +30,19 @@ jobs:
       - run: npm install
         if: ${{ hashFiles('package-lock.json') == '' }}
 
-      - name: Fetch official TRIPO images
-        run: node scripts/fetch-tripo-assets.mjs
+      - name: Crawl unique TRIPO Studio gallery images
+        run: node fetch-tripo-assets.mjs
 
-      - name: Verify downloaded images
+      - name: Verify unique gallery images
         run: |
-          test -s public/tripo/site-assets/model.webp
-          test -s public/tripo/site-assets/texture.webp
-          test -s public/tripo/site-assets/brush.webp
-          test -s public/tripo/site-assets/rigging.png
-          test -s public/tripo/site-assets/advantage.webp
-          test -s public/tripo/site-assets/community-left.webp
-          test -s public/tripo/site-assets/community-right.webp
-          ls -lh public/tripo/site-assets
+          test -s public/tripo/studio-gallery/gallery-01.webp
+          test -s public/tripo/studio-gallery/gallery-02.webp
+          test -s public/tripo/studio-gallery/gallery-03.webp
+          test -s public/tripo/studio-gallery/gallery-04.webp
+          test -s public/tripo/studio-gallery/gallery-05.webp
+          test -s public/tripo/studio-gallery/gallery-06.webp
+          test -s public/tripo/studio-gallery/gallery-07.webp
+          ls -lh public/tripo/studio-gallery
 
       - run: npm run build
         env:
