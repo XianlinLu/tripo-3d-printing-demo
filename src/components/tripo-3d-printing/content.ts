@@ -1,22 +1,19 @@
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const ASSET_BASE = `${BASE}/tripo/site-assets`;
+const GALLERY_BASE = `${BASE}/tripo/studio-gallery`;
 
 export const SITE = {
   logo: `${BASE}/tripo/tripo-logo.png`,
   audio: `${BASE}/tripo/tripo-audio.mp3`,
 };
 
-// These files are downloaded from the official TRIPO website by
-// scripts/fetch-tripo-assets.mjs during the GitHub Pages build.
-// Serving them locally avoids broken _ipx / anti-hotlink image URLs.
 export const TRIPO_ASSETS = {
-  model: `${ASSET_BASE}/model.webp`,
-  texture: `${ASSET_BASE}/texture.webp`,
-  brush: `${ASSET_BASE}/brush.webp`,
-  rigging: `${ASSET_BASE}/rigging.png`,
-  advantage: `${ASSET_BASE}/advantage.webp`,
-  communityLeft: `${ASSET_BASE}/community-left.webp`,
-  communityRight: `${ASSET_BASE}/community-right.webp`,
+  factModel: `${GALLERY_BASE}/gallery-01.webp`,
+  factTexture: `${GALLERY_BASE}/gallery-02.webp`,
+  caseJewelry: `${GALLERY_BASE}/gallery-03.webp`,
+  caseSculpture: `${GALLERY_BASE}/gallery-04.webp`,
+  caseMiniature: `${GALLERY_BASE}/gallery-05.webp`,
+  workflowLeft: `${GALLERY_BASE}/gallery-06.webp`,
+  workflowRight: `${GALLERY_BASE}/gallery-07.webp`,
 };
 
 export const hero = {
@@ -52,19 +49,19 @@ export const cases = [
     kicker: "PERSONALIZED JEWELRY",
     title: "One-pass modeling with sharp, detailed precision.",
     body: "Generate clean, high-precision forms from reference images while keeping wall thickness and geometry suitable for production workflows.",
-    image: TRIPO_ASSETS.model,
+    image: TRIPO_ASSETS.caseJewelry,
   },
   {
     kicker: "ART SCULPTURE",
     title: "Intricate geometry with stronger structural integrity.",
     body: "Move from concept art to complex printable forms with cleaner surfaces and fewer structural repair steps.",
-    image: TRIPO_ASSETS.advantage,
+    image: TRIPO_ASSETS.caseSculpture,
   },
   {
     kicker: "TABLETOP MINIATURES",
     title: "Scale cohesion, stable poses and detailed characters.",
     body: "Use text or images to create character models with a stable base, readable silhouette and detail that survives small-scale printing.",
-    image: TRIPO_ASSETS.rigging,
+    image: TRIPO_ASSETS.caseMiniature,
   },
 ];
 

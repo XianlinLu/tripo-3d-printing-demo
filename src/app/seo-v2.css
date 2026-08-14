@@ -1,0 +1,213 @@
+/* SEO v2 — Trionn-style right drawer + corrected hero rhythm + TRIPO gallery media */
+
+/* HERO TITLE: remove native h1 margins and use one consistent, tight vertical rhythm */
+.hero-title{
+  margin:0!important;
+  padding:0!important;
+  line-height:.91!important;
+  letter-spacing:-.058em!important;
+  display:block!important;
+}
+.hero-title-a,
+.hero-title-b,
+.hero-title-c{
+  margin:0!important;
+  padding:0!important;
+}
+.hero-title-b{margin-top:-.035em!important}
+.hero-title-c{margin-top:-.035em!important}
+.hero-copy{top:13.4vh!important}
+.hero-eyebrow{margin-bottom:28px!important}
+
+/* Keep the logo visible on the dark canvas while the menu drawer is open */
+.site-nav.is-menu-open{
+  z-index:260!important;
+  mix-blend-mode:normal!important;
+  pointer-events:none;
+}
+.site-nav.is-menu-open .brand{
+  pointer-events:auto;
+  width:118px!important;
+}
+.site-nav.is-menu-open .brand-image-menu{
+  width:118px!important;
+  height:auto!important;
+  object-fit:contain!important;
+  background:#080909!important;
+}
+.site-nav.is-menu-open .nav-actions{
+  opacity:0!important;
+  pointer-events:none!important;
+}
+
+/* RIGHT-SIDE MENU DRAWER */
+.menu-drawer-overlay.menu-overlay{
+  position:fixed!important;
+  inset:0!important;
+  z-index:220!important;
+  background:transparent!important;
+  padding:0!important;
+  visibility:hidden!important;
+  transform:none!important;
+  pointer-events:none!important;
+  transition:none!important;
+}
+.menu-drawer-overlay.menu-overlay.is-open{
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+.menu-drawer{
+  position:absolute;
+  top:6px;
+  right:7px;
+  bottom:6px;
+  width:clamp(370px,22vw,430px);
+  background:#f1f1ef;
+  color:#3b3b3a;
+  border-radius:6px;
+  padding:21px 22px 24px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  transform:translate3d(105%,0,0);
+  transition:transform .72s cubic-bezier(.76,0,.24,1);
+  box-shadow:0 22px 70px rgba(0,0,0,.16);
+}
+.menu-drawer-overlay.is-open .menu-drawer{
+  transform:translate3d(0,0,0);
+}
+.menu-drawer-actions{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  height:32px;
+}
+.menu-drawer-actions .sound-orb{
+  width:30px!important;
+  height:30px!important;
+  background:#dededb!important;
+  border-color:transparent!important;
+  color:#555!important;
+  box-shadow:none!important;
+}
+.menu-drawer-actions .sound-orb svg{
+  fill:#555!important;
+  stroke:#555!important;
+}
+.menu-drawer-cta,
+.menu-drawer-close{
+  height:31px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-size:10px;
+  letter-spacing:.01em;
+}
+.menu-drawer-cta{
+  padding:0 16px;
+  background:#080909;
+  color:#f4f4f1;
+  border:1px solid #080909;
+}
+.menu-drawer-close{
+  min-width:84px;
+  gap:8px;
+  padding:0 13px;
+  color:#222;
+  background:transparent;
+  border:1px solid #595957;
+  cursor:pointer;
+  line-height:1;
+}
+.menu-drawer-close span{
+  font-size:17px;
+  line-height:1;
+  transform:translateY(-.5px);
+}
+.menu-drawer-nav{
+  display:flex;
+  flex-direction:column;
+  margin-top:126px;
+  width:100%;
+}
+.menu-drawer-nav a{
+  width:max-content;
+  font-size:clamp(28px,1.75vw,34px);
+  font-weight:400;
+  line-height:1.15;
+  letter-spacing:-.045em;
+  color:#444;
+  transition:color .2s ease,transform .2s ease;
+}
+.menu-drawer-nav a:hover{
+  color:#080909;
+  transform:translateX(5px);
+}
+.menu-story-pill{
+  width:max-content;
+  margin-top:24px;
+  border:1px solid #c1c1bd;
+  border-radius:999px;
+  padding:7px 14px;
+  font-size:10px;
+  color:#4c4c49;
+}
+.menu-drawer-bottom{
+  margin-top:auto;
+  display:grid;
+  gap:50px;
+  padding-bottom:8px;
+}
+.menu-drawer-block{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.menu-drawer-block small{
+  color:#9a9a96;
+  font-size:10px;
+  letter-spacing:.01em;
+}
+.menu-drawer-block>a,
+.menu-resource-grid a{
+  color:#50504d;
+  font-size:14px;
+  line-height:1.35;
+}
+.menu-resource-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2px 24px;
+  max-width:270px;
+}
+
+/* Gallery imagery: every content image is a unique file from the current TRIPO Studio featured gallery */
+.facts-image-card img,
+.case-card-media img{
+  object-position:center center;
+}
+.workflow-accent{
+  opacity:.12!important;
+  filter:grayscale(.8) contrast(.9) brightness(1.18)!important;
+}
+.workflow-accent-top{
+  object-position:center 22%!important;
+}
+.workflow-accent-bottom{
+  object-position:center 58%!important;
+}
+
+@media(max-width:900px){
+  .hero-title-b,.hero-title-c{margin-top:0!important}
+  .menu-drawer{
+    top:5px;
+    right:5px;
+    bottom:5px;
+    width:min(92vw,420px);
+  }
+  .menu-drawer-nav{margin-top:100px}
+  .menu-drawer-bottom{gap:30px}
+}

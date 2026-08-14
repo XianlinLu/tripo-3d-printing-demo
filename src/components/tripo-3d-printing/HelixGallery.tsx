@@ -1,10 +1,8 @@
 "use client";
-import { useRef } from "react";
-import { helixCards } from "./content";
-import { useScrollProgress } from "./useScrollProgress";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const WORKFLOW_MEDIA = `${BASE}/tripo/raygun.jpg`;
+import { useRef } from "react";
+import { helixCards, TRIPO_ASSETS } from "./content";
+import { useScrollProgress } from "./useScrollProgress";
 
 export function HelixGallery() {
   const ref = useRef<HTMLElement | null>(null);
@@ -33,8 +31,16 @@ export function HelixGallery() {
           <h2>Every stage,<br />one connected system.</h2>
         </div>
 
-        <img className="workflow-accent workflow-accent-top" src={WORKFLOW_MEDIA} alt="" aria-hidden="true" />
-        <img className="workflow-accent workflow-accent-bottom" src={WORKFLOW_MEDIA} alt="" aria-hidden="true" />
+        <img
+          className="workflow-accent workflow-accent-top"
+          src={TRIPO_ASSETS.workflowLeft}
+          alt="Featured TRIPO gallery model"
+        />
+        <img
+          className="workflow-accent workflow-accent-bottom"
+          src={TRIPO_ASSETS.workflowRight}
+          alt="Featured TRIPO gallery model"
+        />
 
         <div
           className="workflow-card-grid"
