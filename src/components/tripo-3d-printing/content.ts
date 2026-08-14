@@ -1,18 +1,22 @@
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const ASSET_BASE = `${BASE}/tripo/site-assets`;
 
 export const SITE = {
   logo: `${BASE}/tripo/tripo-logo.png`,
   audio: `${BASE}/tripo/tripo-audio.mp3`,
 };
 
+// These files are downloaded from the official TRIPO website by
+// scripts/fetch-tripo-assets.mjs during the GitHub Pages build.
+// Serving them locally avoids broken _ipx / anti-hotlink image URLs.
 export const TRIPO_ASSETS = {
-  model: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1808/new/section-model-generator/step-gen-3d.webp",
-  texture: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1280/new/section-texturing/step-input.webp",
-  brush: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1014/new/section-texturing/magic-brush.webp",
-  rigging: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1280/new/section-rigging/step-rigging.png",
-  advantage: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1468/new/section-advantages/effect-1.webp",
-  communityLeft: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1398/new/section-community/part-left.webp",
-  communityRight: "https://www.tripo3d.ai/_ipx/q_85&s_1280x1486/new/section-community/part-right.webp",
+  model: `${ASSET_BASE}/model.webp`,
+  texture: `${ASSET_BASE}/texture.webp`,
+  brush: `${ASSET_BASE}/brush.webp`,
+  rigging: `${ASSET_BASE}/rigging.png`,
+  advantage: `${ASSET_BASE}/advantage.webp`,
+  communityLeft: `${ASSET_BASE}/community-left.webp`,
+  communityRight: `${ASSET_BASE}/community-right.webp`,
 };
 
 export const hero = {
