@@ -1,0 +1,272 @@
+/* Target menu drawer calibration.
+   Imported after all previous styles so the generic full-screen menu rules
+   from globals.css cannot leak into this drawer. */
+
+.site-nav.is-menu-open{
+  z-index:260!important;
+  mix-blend-mode:difference!important;
+  pointer-events:none!important;
+}
+.site-nav.is-menu-open .brand{
+  width:94px!important;
+  height:28px!important;
+  pointer-events:auto!important;
+}
+.site-nav.is-menu-open .brand-image{
+  width:94px!important;
+  height:auto!important;
+  display:block!important;
+  object-fit:contain!important;
+  background:transparent!important;
+  filter:none!important;
+  opacity:1!important;
+}
+.site-nav.is-menu-open .nav-actions{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+
+/* Overlay only provides the click/blocking layer.
+   The black hero remains fully visible behind the right-side panel. */
+.menu-overlay.menu-drawer-overlay{
+  position:fixed!important;
+  inset:0!important;
+  z-index:220!important;
+  padding:0!important;
+  background:transparent!important;
+  color:#3f3f3d!important;
+  transform:none!important;
+  transition:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+.menu-overlay.menu-drawer-overlay.is-open{
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+
+/* Match the target panel proportions: narrow, nearly full-height,
+   6px outside gutter, soft off-white surface, very small corner radius. */
+.menu-overlay.menu-drawer-overlay .menu-drawer{
+  position:absolute!important;
+  top:6px!important;
+  right:7px!important;
+  bottom:7px!important;
+  width:clamp(386px,21.8vw,408px)!important;
+  height:auto!important;
+  padding:20px 28px 24px 30px!important;
+  background:#f2f2ef!important;
+  color:#41413f!important;
+  border-radius:5px!important;
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+  box-shadow:0 14px 48px rgba(0,0,0,.12)!important;
+  transform:translate3d(calc(100% + 14px),0,0)!important;
+  transition:transform .72s cubic-bezier(.76,0,.24,1)!important;
+}
+.menu-overlay.menu-drawer-overlay.is-open .menu-drawer{
+  transform:translate3d(0,0,0)!important;
+}
+
+/* Top controls */
+.menu-overlay.menu-drawer-overlay .menu-drawer-actions{
+  height:31px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  margin:0!important;
+  padding:0!important;
+  flex:none!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-actions .sound-orb{
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:#dededb!important;
+  color:#858582!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-actions .sound-orb.is-playing{
+  background:#dededb!important;
+  color:#1c1c1b!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-cta,
+.menu-overlay.menu-drawer-overlay .menu-drawer-close{
+  height:31px!important;
+  min-height:31px!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:999px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:nowrap!important;
+  font-family:inherit!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  letter-spacing:0!important;
+  line-height:1!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-cta{
+  min-width:105px!important;
+  padding:0 16px!important;
+  background:#080909!important;
+  color:#f5f5f2!important;
+  border:1px solid #080909!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-close{
+  min-width:87px!important;
+  gap:9px!important;
+  padding:0 13px!important;
+  color:#222220!important;
+  background:transparent!important;
+  border:1px solid #686865!important;
+  cursor:pointer!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-close span{
+  margin:0!important;
+  padding:0!important;
+  font-size:17px!important;
+  font-weight:300!important;
+  line-height:1!important;
+  display:block!important;
+  transform:translateY(-.4px)!important;
+}
+
+/* IMPORTANT:
+   globals.css has ".menu-overlay nav a" with huge 7vw typography.
+   These selectors intentionally have higher specificity and fully reset it. */
+.menu-overlay.menu-drawer-overlay .menu-drawer-nav{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  width:100%!important;
+  height:auto!important;
+  margin:124px 0 0!important;
+  padding:0!important;
+  gap:0!important;
+  flex:none!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-nav a{
+  display:block!important;
+  width:max-content!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-bottom:0!important;
+  font-size:30px!important;
+  font-weight:400!important;
+  line-height:1.17!important;
+  letter-spacing:-.045em!important;
+  color:#41413f!important;
+  justify-content:initial!important;
+  transition:color .18s ease,transform .18s ease!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-nav a:hover{
+  color:#080909!important;
+  transform:translateX(4px)!important;
+}
+
+/* Small outlined story pill directly below the navigation */
+.menu-overlay.menu-drawer-overlay .menu-story-pill{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  align-self:flex-start!important;
+  width:max-content!important;
+  height:31px!important;
+  margin:24px 0 0!important;
+  padding:0 14px!important;
+  border:1px solid #c5c5c1!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:#4c4c49!important;
+  font-size:10px!important;
+  font-weight:400!important;
+  line-height:1!important;
+  letter-spacing:0!important;
+}
+
+/* Lower information follows the same vertical structure as the target panel:
+   one block above the bottom block, not a compressed footer. */
+.menu-overlay.menu-drawer-overlay .menu-drawer-bottom{
+  margin-top:auto!important;
+  padding:0 0 8px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:47px!important;
+  flex:none!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-block{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  gap:5px!important;
+  margin:0!important;
+  padding:0!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-block small{
+  margin:0 0 5px!important;
+  padding:0!important;
+  color:#9a9a96!important;
+  font-size:10px!important;
+  font-weight:400!important;
+  line-height:1!important;
+  letter-spacing:0!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-block > a,
+.menu-overlay.menu-drawer-overlay .menu-resource-grid a{
+  display:block!important;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  color:#50504d!important;
+  font-size:14px!important;
+  font-weight:400!important;
+  line-height:1.34!important;
+  letter-spacing:-.01em!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-resource-grid{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:2px 52px!important;
+  width:100%!important;
+  max-width:270px!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+/* At desktop widths keep the proportions rigid like the target reference. */
+@media (min-width:1200px){
+  .menu-overlay.menu-drawer-overlay .menu-drawer{
+    min-width:386px!important;
+  }
+}
+
+/* Responsive fallback */
+@media (max-width:900px){
+  .menu-overlay.menu-drawer-overlay .menu-drawer{
+    top:5px!important;
+    right:5px!important;
+    bottom:5px!important;
+    width:min(92vw,408px)!important;
+    padding:18px 22px 22px!important;
+  }
+  .menu-overlay.menu-drawer-overlay .menu-drawer-nav{
+    margin-top:96px!important;
+  }
+  .menu-overlay.menu-drawer-overlay .menu-drawer-nav a{
+    font-size:28px!important;
+  }
+  .menu-overlay.menu-drawer-overlay .menu-drawer-bottom{
+    gap:28px!important;
+  }
+}
