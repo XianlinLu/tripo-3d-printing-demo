@@ -1,0 +1,386 @@
+/* TRIONN scroll / typography calibration — imported last */
+
+/* ---------- Global desktop title scale ----------
+   The previous pass used 5–10vw headings almost everywhere. The reference
+   keeps large editorial type, but at materially smaller desktop caps. */
+.hero-title-a{font-size:clamp(46px,3.75vw,62px)!important}
+.hero-title-b{font-size:clamp(47px,3.82vw,63px)!important}
+.hero-title-c{font-size:clamp(46px,3.68vw,61px)!important}
+.case-heading h2{font-size:clamp(40px,3.9vw,60px)!important;line-height:.91!important}
+.case-card-copy h3{font-size:clamp(25px,2.45vw,38px)!important}
+.case-outro h3{font-size:clamp(34px,3.45vw,54px)!important}
+.giant-word{font-size:clamp(64px,7.2vw,116px)!important}
+.stories-intro h2{font-size:clamp(42px,4.2vw,66px)!important;line-height:.91!important}
+.workflow-grid-head h2{font-size:clamp(42px,4.35vw,68px)!important;line-height:.91!important}
+.footer-compact-copy h2{font-size:clamp(58px,6.3vw,98px)!important;line-height:.82!important}
+
+/* ---------- Statement / vision scroll sequence ---------- */
+.statement-shell-match{
+  height:350vh!important;
+  background:#080909!important;
+}
+.statement-sticky-match{
+  display:block!important;
+  position:sticky!important;
+  top:0!important;
+  height:100vh!important;
+  min-height:650px!important;
+  overflow:hidden!important;
+  background:#080909!important;
+}
+.statement-sticky-match .statement-grid-lines{
+  opacity:.12!important;
+}
+.statement-kicker-match{
+  position:absolute;
+  z-index:5;
+  left:10vw;
+  top:19vh;
+  font-size:8px;
+  letter-spacing:.12em;
+  color:#8a8b8d;
+  text-transform:uppercase;
+  will-change:transform,opacity;
+}
+.statement-main-match{
+  position:absolute;
+  z-index:6;
+  left:10vw;
+  right:7vw;
+  top:27vh;
+  will-change:transform,opacity;
+}
+.statement-main-match h2{
+  margin:0;
+  width:min(1120px,84vw);
+  font-size:clamp(42px,4.25vw,64px)!important;
+  font-weight:400;
+  letter-spacing:-.058em;
+  line-height:.92;
+}
+.statement-reveal-line{
+  display:block;
+  white-space:nowrap;
+}
+.statement-word{
+  display:inline-block;
+  transition:color .05s linear,filter .05s linear;
+  will-change:color,filter;
+}
+.statement-body-match{
+  position:absolute;
+  z-index:6;
+  right:10vw;
+  bottom:13vh;
+  width:min(330px,25vw);
+  margin:0;
+  color:#b2b2af;
+  font-size:11px;
+  line-height:1.38;
+  will-change:transform,opacity;
+}
+.statement-marquee-match{
+  left:0!important;
+  right:auto!important;
+  top:0!important;
+  bottom:auto!important;
+  width:max-content!important;
+  gap:30px!important;
+  padding-left:2vw!important;
+  white-space:nowrap!important;
+  font-size:clamp(54px,6.35vw,96px)!important;
+  line-height:.82!important;
+  letter-spacing:-.065em!important;
+  color:#efefec!important;
+  will-change:transform,opacity!important;
+}
+.statement-marquee-match span{
+  gap:29px!important;
+}
+.statement-marquee-match b{
+  color:#5a5b5d!important;
+  font-size:.42em!important;
+  font-weight:300!important;
+}
+.stripe-wipe-match{
+  z-index:20!important;
+  display:grid!important;
+  grid-template-rows:repeat(6,1fr)!important;
+  align-content:stretch!important;
+  justify-content:stretch!important;
+  overflow:hidden!important;
+}
+.stripe-wipe-match i{
+  height:auto!important;
+  min-height:0!important;
+  width:100%!important;
+  transform-origin:center!important;
+  background:#e7e7e4!important;
+  border:0!important;
+  will-change:transform!important;
+}
+.stripe-wipe-match i:nth-child(2),
+.stripe-wipe-match i:nth-child(4),
+.stripe-wipe-match i:nth-child(6){
+  background:#eeeeeb!important;
+}
+
+/* ---------- Key Facts: pinned title -> 3-card entrance -> partner row ---------- */
+.facts-shell-match{
+  position:relative!important;
+  height:210vh!important;
+  min-height:0!important;
+  padding:0!important;
+  background:#e7e7e4!important;
+  color:#343432!important;
+}
+.facts-sticky-match{
+  position:sticky;
+  top:0;
+  height:100vh;
+  min-height:650px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 39%,rgba(255,255,255,.38),transparent 34%),
+    #e7e7e4;
+}
+.facts-heading-match{
+  position:absolute;
+  z-index:5;
+  left:50%;
+  top:19vh;
+  width:620px;
+  max-width:70vw;
+  transform:translateX(-50%);
+  text-align:center;
+  will-change:transform,opacity;
+}
+.facts-heading-match h2{
+  margin:0 0 13px;
+  font-size:clamp(39px,3.2vw,52px)!important;
+  font-weight:400;
+  line-height:.94;
+  letter-spacing:-.055em;
+  color:#3a3a38;
+}
+.facts-heading-match p{
+  margin:0 auto;
+  font-size:9px;
+  line-height:1.28;
+  color:#676765;
+}
+.facts-cards-match{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  top:35.5vh;
+  display:flex;
+  align-items:stretch;
+  gap:14px;
+  width:max-content;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.fact-card-match{
+  position:relative;
+  width:250px;
+  height:306px;
+  flex:none;
+  will-change:transform,opacity;
+  transform-style:preserve-3d;
+}
+.fact-card-image-match{
+  overflow:hidden;
+  background:#343436;
+  color:#f0f0ed;
+}
+.fact-card-image-match img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(.82) contrast(1.02) brightness(.86);
+}
+.fact-card-shade{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.05),transparent 42%,rgba(0,0,0,.72));
+}
+.fact-card-label{
+  position:absolute;
+  z-index:3;
+  left:24px;
+  right:20px;
+  top:25px;
+  font-size:8px;
+  letter-spacing:.03em;
+  color:inherit;
+}
+.fact-card-copy{
+  position:absolute;
+  z-index:3;
+  left:24px;
+  bottom:25px;
+  width:130px;
+  font-size:8px;
+  line-height:1.3;
+  color:#dadad7;
+}
+.fact-card-image-match>strong{
+  position:absolute;
+  z-index:3;
+  right:22px;
+  bottom:23px;
+  font-size:28px;
+  font-weight:400;
+  letter-spacing:-.05em;
+}
+.fact-card-center-match{
+  background:#ecece9;
+  color:#434341;
+  padding:0 24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.fact-card-center-match .fact-card-label{
+  color:#4f4f4c;
+  left:0;
+  right:0;
+  text-align:center;
+}
+.fact-circle-match{
+  position:absolute;
+  left:50%;
+  top:48%;
+  width:126px;
+  height:126px;
+  margin:-63px 0 0 -63px;
+  border-radius:50%;
+  background:#f9f9f7;
+  display:grid;
+  place-items:center;
+  will-change:transform,opacity;
+}
+.fact-circle-match strong{
+  font-size:29px;
+  font-weight:400;
+  letter-spacing:-.055em;
+}
+.fact-card-center-match p{
+  position:absolute;
+  left:32px;
+  right:32px;
+  bottom:26px;
+  margin:0;
+  font-size:8px;
+  line-height:1.32;
+  color:#71716e;
+}
+.facts-partners-match{
+  position:absolute;
+  z-index:5;
+  left:50%;
+  top:79vh;
+  width:640px;
+  max-width:72vw;
+  text-align:center;
+  color:#4c4c49;
+  will-change:transform,opacity;
+}
+.facts-partners-title{
+  display:block;
+  margin-bottom:18px;
+  font-size:8px;
+  letter-spacing:.02em;
+}
+.facts-partners-match>div{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:26px;
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:-.02em;
+}
+
+/* The old 4-column Key Facts layout is no longer used. */
+.facts-topline,
+.facts-heading,
+.facts-editorial-grid,
+.facts-partners{
+  display:none!important;
+}
+
+@media(max-width:1100px){
+  .statement-main-match h2{
+    font-size:clamp(40px,4.6vw,58px)!important;
+  }
+  .fact-card-match{
+    width:220px;
+    height:286px;
+  }
+  .facts-cards-match{
+    gap:12px;
+  }
+}
+
+@media(max-width:900px){
+  .statement-shell-match{height:290vh!important}
+  .statement-kicker-match{left:18px;top:17vh}
+  .statement-main-match{left:18px;right:18px;top:25vh}
+  .statement-main-match h2{
+    width:100%;
+    font-size:clamp(37px,9vw,56px)!important;
+    line-height:.94;
+  }
+  .statement-reveal-line{
+    white-space:normal;
+    padding-left:0!important;
+  }
+  .statement-body-match{
+    right:18px;
+    left:18px;
+    bottom:14vh;
+    width:auto;
+    max-width:320px;
+  }
+  .statement-marquee-match{
+    font-size:clamp(48px,12vw,78px)!important;
+  }
+
+  .facts-shell-match{height:250vh!important}
+  .facts-heading-match{
+    top:15vh;
+    max-width:88vw;
+  }
+  .facts-cards-match{
+    top:31vh;
+    width:calc(100vw - 36px);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .fact-card-match{
+    width:auto;
+    height:270px;
+  }
+  .fact-card-center-match{
+    grid-row:2;
+    grid-column:1/-1;
+    height:215px;
+  }
+  .facts-partners-match{
+    top:auto;
+    bottom:6vh;
+    width:calc(100vw - 36px);
+    max-width:none;
+  }
+  .facts-partners-match>div{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+}
