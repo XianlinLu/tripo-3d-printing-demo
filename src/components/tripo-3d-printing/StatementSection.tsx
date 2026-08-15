@@ -67,12 +67,12 @@ export function StatementSection() {
   const marqueeIn = smooth((p - 0.38) / 0.12);
   const marqueeMove = clamp01((p - 0.42) / 0.45);
 
-  // Short venetian-blind transition from the supplied recording.
-  const wipe = clamp01((p - 0.865) / 0.135);
-  const blind1 = smooth(wipe / 0.38);
-  const blind2 = smooth((wipe - 0.13) / 0.38);
-  const blind3 = smooth((wipe - 0.27) / 0.38);
-  const paper = smooth((wipe - 0.42) / 0.58);
+  // Do not start the transition while the statement copy is still revealing.
+  // The blinds begin only after the giant PRINT / ITERATE / IMPACT marquee is established.
+  const wipe = clamp01((p - 0.82) / 0.18);
+  const blind1 = smooth(wipe / 0.40);
+  const blind2 = smooth((wipe - 0.14) / 0.40);
+  const blind3 = smooth((wipe - 0.28) / 0.40);
 
   const line1 = statement.line1;
   const secondWords = wordsOf(statement.line2);
@@ -174,19 +174,15 @@ export function StatementSection() {
         <div className="flow-venetian-transition" aria-hidden="true">
           <i
             className="flow-blind flow-blind-1"
-            style={{ transform: `translate3d(0,${(1 - blind1) * 130}%,0)` }}
+            style={{ transform: `translate3d(0,${(1 - blind1) * 120}vh,0)` }}
           />
           <i
             className="flow-blind flow-blind-2"
-            style={{ transform: `translate3d(0,${(1 - blind2) * 130}%,0)` }}
+            style={{ transform: `translate3d(0,${(1 - blind2) * 120}vh,0)` }}
           />
           <i
             className="flow-blind flow-blind-3"
-            style={{ transform: `translate3d(0,${(1 - blind3) * 130}%,0)` }}
-          />
-          <i
-            className="flow-paper-rise"
-            style={{ transform: `translate3d(0,${(1 - paper) * 101}%,0)` }}
+            style={{ transform: `translate3d(0,${(1 - blind3) * 120}vh,0)` }}
           />
         </div>
       </div>
