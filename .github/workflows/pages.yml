@@ -31,7 +31,7 @@ jobs:
         if: ${{ hashFiles('package-lock.json') == '' }}
 
       - name: Fetch official TRIPO images
-        run: node fetch-tripo-assets.mjs
+        run: node script/fetch-tripo-assets.mjs
 
       - name: Verify downloaded images
         run: |
