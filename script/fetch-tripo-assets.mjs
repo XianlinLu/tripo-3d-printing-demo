@@ -6,7 +6,6 @@ const STUDIO_URL =
 
 const GALLERY_DIR = join(process.cwd(), "public", "tripo", "studio-gallery");
 const SITE_DIR = join(process.cwd(), "public", "tripo", "site-assets");
-
 const REQUIRED = 12;
 
 function decodeEmbeddedUrl(value) {
@@ -41,7 +40,6 @@ function collectStudioImages(html) {
       unique.push(cleaned);
     } catch {}
   }
-
   return unique;
 }
 
@@ -56,9 +54,7 @@ async function fetchImage(url, label) {
     },
   });
 
-  if (!response.ok) {
-    throw new Error(`${label} failed: HTTP ${response.status}`);
-  }
+  if (!response.ok) throw new Error(`${label} failed: HTTP ${response.status}`);
 
   const type = response.headers.get("content-type") ?? "";
   if (!type.startsWith("image/")) {
@@ -69,11 +65,8 @@ async function fetchImage(url, label) {
   if (data.length < 8_000) {
     throw new Error(`${label} is unexpectedly small (${data.length} bytes)`);
   }
-
   return data;
 }
-
-console.log(`Fetching TRIPO Studio gallery: ${STUDIO_URL}`);
 
 const pageResponse = await fetch(STUDIO_URL, {
   redirect: "follow",
@@ -102,7 +95,7 @@ if (urls.length < REQUIRED) {
 await mkdir(GALLERY_DIR, { recursive: true });
 await mkdir(SITE_DIR, { recursive: true });
 
-const files = [
+const targets = [
   [GALLERY_DIR, "gallery-01.webp"],
   [GALLERY_DIR, "gallery-02.webp"],
   [GALLERY_DIR, "case-jewelry.webp"],
@@ -117,11 +110,11 @@ const files = [
   [SITE_DIR, "service-detail.webp"],
 ];
 
-for (let i = 0; i < files.length; i += 1) {
-  const [dir, fileName] = files[i];
+for (let i = 0; i < targets.length; i += 1) {
+  const [dir, fileName] = targets[i];
   const data = await fetchImage(urls[i], fileName);
   await writeFile(join(dir, fileName), data);
   console.log(`Saved ${fileName} (${data.length} bytes)`);
 }
 
-console.log(`Saved ${files.length} non-repeating TRIPO Studio images.`);
+console.log(`Saved ${targets.length} non-repeating TRIPO Studio images.`);
