@@ -6,7 +6,7 @@
 /* ---------- Dark statement ---------- */
 .flow-statement-shell{
   position:relative!important;
-  height:210vh!important;
+  height:178vh!important;
   min-height:0!important;
   background:#080909!important;
 }
@@ -103,8 +103,7 @@
   overflow:hidden;
   pointer-events:none;
 }
-.flow-blind,
-.flow-paper-rise{
+.flow-blind{
   position:absolute;
   left:0;
   right:0;
@@ -120,19 +119,10 @@
 .flow-blind-1{bottom:4vh}
 .flow-blind-2{bottom:24vh;background:#efefec}
 .flow-blind-3{bottom:44vh;background:#e5e5e2}
-.flow-paper-rise{
-  z-index:2;
-  bottom:0;
-  height:100%;
-  background:
-    radial-gradient(circle at 50% 35%,rgba(255,255,255,.44),transparent 40%),
-    #e7e7e4;
-}
-
 /* ---------- The single, real Key Facts section ---------- */
 .flow-facts-shell{
   position:relative!important;
-  height:150vh!important;
+  height:132vh!important;
   min-height:0!important;
   padding:0!important;
   background:#e7e7e4!important;
@@ -152,7 +142,7 @@
   position:absolute;
   z-index:5;
   left:50%;
-  top:12.2vh;
+  top:8.8vh;
   width:700px;
   max-width:78vw;
   text-align:center;
@@ -169,7 +159,7 @@
   letter-spacing:-.025em!important;text-align:center!important
 }
 .flow-facts-cards{
-  position:absolute;z-index:4;left:50%;top:35.5vh;display:flex;gap:20px;
+  position:absolute;z-index:4;left:50%;top:30.5vh;display:flex;gap:20px;
   width:max-content;align-items:stretch;transform-style:preserve-3d;will-change:transform
 }
 .flow-fact-card{
@@ -226,7 +216,7 @@
   .flow-fact-circle strong{font-size:38px}
 }
 @media(max-width:900px){
-  .flow-statement-shell{height:195vh!important}
+  .flow-statement-shell{height:165vh!important}
   .flow-statement-headline{left:18px;right:18px;top:19vh}
   .flow-statement-headline h2{
     width:100%!important;font-size:clamp(38px,9vw,56px)!important;line-height:.98!important
@@ -238,7 +228,7 @@
   .flow-statement-detail-right{right:18px;top:74vh;width:270px}
   .flow-statement-marquee{font-size:clamp(62px,15vw,92px)!important}
 
-  .flow-facts-shell{height:205vh!important}
+  .flow-facts-shell{height:175vh!important}
   .flow-facts-heading{top:10vh;width:88vw}
   .flow-facts-heading h2{font-size:clamp(48px,11vw,68px)!important}
   .flow-facts-cards{
