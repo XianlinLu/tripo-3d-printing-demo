@@ -14,17 +14,12 @@ export function KeyFactsSection() {
   const ref = useRef<HTMLElement | null>(null);
   const p = useScrollProgress(ref);
 
-  const titleP = smooth((p - 0.00) / 0.13);
-  const subtitleP = smooth((p - 0.045) / 0.13);
-
-  const leftP = smooth((p - 0.16) / 0.25);
-  const centerP = smooth((p - 0.23) / 0.25);
-  const rightP = smooth((p - 0.30) / 0.25);
-  const exitP = smooth((p - 0.90) / 0.10);
-
-  const titleY = (1 - titleP) * 42 - exitP * 24;
-  const subtitleY = (1 - subtitleP) * 28 - exitP * 20;
-  const contentY = -exitP * 24;
+  const headingP = smooth((p + 0.06) / 0.07);
+  const leftP = smooth((p - 0.025) / 0.20);
+  const centerP = smooth((p - 0.085) / 0.20);
+  const rightP = smooth((p - 0.145) / 0.20);
+  const exitP = smooth((p - 0.92) / 0.08);
+  const contentY = -exitP * 18;
 
   return (
     <section ref={ref} className="facts-section flow-facts-shell" id="facts">
@@ -32,17 +27,12 @@ export function KeyFactsSection() {
         <div
           className="flow-facts-heading"
           style={{
-            opacity: titleP * (1 - exitP * 0.25),
-            transform: `translate3d(-50%,${titleY}px,0)`,
+            opacity: headingP * (1 - exitP * 0.2),
+            transform: `translate3d(-50%,${(1 - headingP) * 12 - exitP * 12}px,0)`,
           }}
         >
           <h2>Key facts</h2>
-          <p
-            style={{
-              opacity: subtitleP,
-              transform: `translate3d(0,${subtitleY}px,0)`,
-            }}
-          >
+          <p>
             A snapshot of a global AI 3D workspace built to move
             <br />
             from inspiration to usable assets faster.
@@ -58,9 +48,9 @@ export function KeyFactsSection() {
             style={{
               opacity: leftP,
               transform:
-                `perspective(1000px) translate3d(${(1 - leftP) * -72}px,${(1 - leftP) * 185}px,0) ` +
-                `rotateX(${(1 - leftP) * 18}deg) rotateY(${(1 - leftP) * 12}deg) ` +
-                `rotateZ(${(1 - leftP) * -6}deg) scale(${0.80 + leftP * 0.20})`,
+                `perspective(1000px) translate3d(${(1 - leftP) * -64}px,${(1 - leftP) * 170}px,0) ` +
+                `rotateX(${(1 - leftP) * 17}deg) rotateY(${(1 - leftP) * 11}deg) ` +
+                `rotateZ(${(1 - leftP) * -5}deg) scale(${0.82 + leftP * 0.18})`,
             }}
           >
             <span className="flow-fact-top">CREATORS WORLDWIDE</span>
@@ -75,8 +65,8 @@ export function KeyFactsSection() {
             style={{
               opacity: centerP,
               transform:
-                `translate3d(0,${(1 - centerP) * 185}px,0) ` +
-                `scale(${0.82 + centerP * 0.18})`,
+                `translate3d(0,${(1 - centerP) * 170}px,0) ` +
+                `scale(${0.84 + centerP * 0.16})`,
             }}
           >
             <span className="flow-fact-top">3D MODELS CREATED</span>
@@ -84,7 +74,7 @@ export function KeyFactsSection() {
               className="flow-fact-circle"
               style={{
                 opacity: centerP,
-                transform: `translate3d(-50%,-50%,0) scale(${0.58 + centerP * 0.42})`,
+                transform: `translate3d(-50%,-50%,0) scale(${0.62 + centerP * 0.38})`,
               }}
             >
               <strong>{facts[3].value}</strong>
@@ -97,9 +87,9 @@ export function KeyFactsSection() {
             style={{
               opacity: rightP,
               transform:
-                `perspective(1000px) translate3d(${(1 - rightP) * 72}px,${(1 - rightP) * 185}px,0) ` +
-                `rotateX(${(1 - rightP) * 18}deg) rotateY(${(1 - rightP) * -12}deg) ` +
-                `rotateZ(${(1 - rightP) * 6}deg) scale(${0.80 + rightP * 0.20})`,
+                `perspective(1000px) translate3d(${(1 - rightP) * 64}px,${(1 - rightP) * 170}px,0) ` +
+                `rotateX(${(1 - rightP) * 17}deg) rotateY(${(1 - rightP) * -11}deg) ` +
+                `rotateZ(${(1 - rightP) * 5}deg) scale(${0.82 + rightP * 0.18})`,
             }}
           >
             <span className="flow-fact-top">INDUSTRY CLIENTS</span>

@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { statement } from "./content";
+import { StatementLogoScene } from "./StatementLogoScene";
 import { useScrollProgress } from "./useScrollProgress";
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
@@ -66,12 +67,12 @@ export function StatementSection() {
   const marqueeIn = smooth((p - 0.38) / 0.12);
   const marqueeMove = clamp01((p - 0.42) / 0.45);
 
-  // Very short transition window, matching the supplied recording.
-  const wipe = clamp01((p - 0.885) / 0.105);
-  const bandA = smooth(wipe / 0.43);
-  const bandB = smooth((wipe - 0.18) / 0.43);
-  const paper = smooth((wipe - 0.34) / 0.66);
-  const keyPreview = smooth((wipe - 0.72) / 0.28);
+  // Short venetian-blind transition from the supplied recording.
+  const wipe = clamp01((p - 0.865) / 0.135);
+  const blind1 = smooth(wipe / 0.38);
+  const blind2 = smooth((wipe - 0.13) / 0.38);
+  const blind3 = smooth((wipe - 0.27) / 0.38);
+  const paper = smooth((wipe - 0.42) / 0.58);
 
   const line1 = statement.line1;
   const secondWords = wordsOf(statement.line2);
@@ -87,6 +88,8 @@ export function StatementSection() {
   return (
     <section ref={ref} className="statement-shell flow-statement-shell">
       <div className="statement-sticky flow-statement-sticky">
+        <StatementLogoScene progress={p} />
+
         <div className="flow-bg-lines" aria-hidden="true">
           <i /><i /><i /><i /><i />
         </div>
@@ -168,33 +171,23 @@ export function StatementSection() {
           ))}
         </div>
 
-        <div className="flow-transition-wipe" aria-hidden="true">
+        <div className="flow-venetian-transition" aria-hidden="true">
           <i
-            className="flow-transition-band flow-transition-band-a"
-            style={{ transform: `translate3d(0,${(1 - bandA) * 125}%,0)` }}
+            className="flow-blind flow-blind-1"
+            style={{ transform: `translate3d(0,${(1 - blind1) * 130}%,0)` }}
           />
           <i
-            className="flow-transition-band flow-transition-band-b"
-            style={{ transform: `translate3d(0,${(1 - bandB) * 125}%,0)` }}
+            className="flow-blind flow-blind-2"
+            style={{ transform: `translate3d(0,${(1 - blind2) * 130}%,0)` }}
           />
           <i
-            className="flow-transition-paper"
-            style={{ transform: `translate3d(0,${(1 - paper) * 102}%,0)` }}
+            className="flow-blind flow-blind-3"
+            style={{ transform: `translate3d(0,${(1 - blind3) * 130}%,0)` }}
           />
-          <div
-            className="flow-transition-keyfacts-preview"
-            style={{
-              opacity: keyPreview,
-              transform: `translate3d(-50%,${(1 - keyPreview) * 22}px,0)`,
-            }}
-          >
-            <strong>Key facts</strong>
-            <span>
-              A snapshot of a global AI 3D workspace built to move
-              <br />
-              from inspiration to usable assets faster.
-            </span>
-          </div>
+          <i
+            className="flow-paper-rise"
+            style={{ transform: `translate3d(0,${(1 - paper) * 101}%,0)` }}
+          />
         </div>
       </div>
     </section>
