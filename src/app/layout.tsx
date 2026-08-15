@@ -4,7 +4,7 @@ import "./visual-overrides.css";
 import "./seo-v2.css";
 import "./sound-toggle-v2.css";
 import "./menu-target.css";
-import "./trionn-calibration.css";
+import "./hero-title-target.css";
 
 export const metadata: Metadata = {
   title: "Tripo 3D Printing — Interactive Experience",
