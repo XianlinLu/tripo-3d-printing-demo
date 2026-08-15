@@ -14,27 +14,37 @@ export function KeyFactsSection() {
   const ref = useRef<HTMLElement | null>(null);
   const p = useScrollProgress(ref);
 
-  const titleP = smooth((p - 0.02) / 0.18);
-  const leftP = smooth((p - 0.16) / 0.27);
-  const centerP = smooth((p - 0.24) / 0.26);
-  const rightP = smooth((p - 0.30) / 0.28);
-  const partnersP = smooth((p - 0.49) / 0.20);
-  const exitP = smooth((p - 0.84) / 0.14);
+  const titleP = smooth((p - 0.00) / 0.13);
+  const subtitleP = smooth((p - 0.045) / 0.13);
 
-  const compositionY = -exitP * 34;
+  // Recording sequence: left card first, then center, then right.
+  const leftP = smooth((p - 0.16) / 0.25);
+  const centerP = smooth((p - 0.23) / 0.25);
+  const rightP = smooth((p - 0.30) / 0.25);
+  const partnersP = smooth((p - 0.58) / 0.18);
+  const exitP = smooth((p - 0.90) / 0.10);
+
+  const titleY = (1 - titleP) * 42 - exitP * 24;
+  const subtitleY = (1 - subtitleP) * 28 - exitP * 20;
+  const contentY = -exitP * 24;
 
   return (
-    <section ref={ref} className="facts-section facts-shell-match" id="facts">
-      <div className="facts-sticky-match">
+    <section ref={ref} className="facts-section flow-facts-shell" id="facts">
+      <div className="flow-facts-sticky">
         <div
-          className="facts-heading-match"
+          className="flow-facts-heading"
           style={{
-            opacity: titleP * (1 - exitP * 0.34),
-            transform: `translate3d(0,${(1 - titleP) * 64 + compositionY}px,0)`,
+            opacity: titleP * (1 - exitP * 0.25),
+            transform: `translate3d(-50%,${titleY}px,0)`,
           }}
         >
           <h2>Key facts</h2>
-          <p>
+          <p
+            style={{
+              opacity: subtitleP,
+              transform: `translate3d(0,${subtitleY}px,0)`,
+            }}
+          >
             A snapshot of a global AI 3D workspace built to move
             <br />
             from inspiration to usable assets faster.
@@ -42,41 +52,41 @@ export function KeyFactsSection() {
         </div>
 
         <div
-          className="facts-cards-match"
-          style={{ transform: `translate3d(-50%,${compositionY}px,0)` }}
+          className="flow-facts-cards"
+          style={{ transform: `translate3d(-50%,${contentY}px,0)` }}
         >
           <article
-            className="fact-card-match fact-card-image-match fact-card-left-match"
+            className="flow-fact-card flow-fact-card-dark flow-fact-card-left"
             style={{
               opacity: leftP,
               transform:
-                `perspective(900px) translate3d(${(1 - leftP) * -165}px,${(1 - leftP) * 148}px,0) ` +
-                `rotateX(${(1 - leftP) * 18}deg) rotateY(${(1 - leftP) * 14}deg) ` +
-                `rotateZ(${(1 - leftP) * -8}deg) scale(${0.82 + leftP * 0.18})`,
+                `perspective(1000px) translate3d(${(1 - leftP) * -72}px,${(1 - leftP) * 185}px,0) ` +
+                `rotateX(${(1 - leftP) * 18}deg) rotateY(${(1 - leftP) * 12}deg) ` +
+                `rotateZ(${(1 - leftP) * -6}deg) scale(${0.80 + leftP * 0.20})`,
             }}
           >
+            <span className="flow-fact-top">CREATORS WORLDWIDE</span>
             <img src={TRIPO_ASSETS.factModel} alt="TRIPO featured 3D model" />
-            <div className="fact-card-shade" />
-            <span className="fact-card-label">CREATORS WORLDWIDE</span>
-            <span className="fact-card-copy">A global community creating with Tripo.</span>
+            <div className="flow-fact-gradient" />
+            <p>A global community creating with Tripo.</p>
             <strong>{facts[0].value}</strong>
           </article>
 
           <article
-            className="fact-card-match fact-card-center-match"
+            className="flow-fact-card flow-fact-card-light flow-fact-card-center"
             style={{
               opacity: centerP,
               transform:
-                `translate3d(0,${(1 - centerP) * 128}px,0) ` +
-                `scale(${0.78 + centerP * 0.22})`,
+                `translate3d(0,${(1 - centerP) * 185}px,0) ` +
+                `scale(${0.82 + centerP * 0.18})`,
             }}
           >
-            <span className="fact-card-label">3D MODELS CREATED</span>
+            <span className="flow-fact-top">3D MODELS CREATED</span>
             <div
-              className="fact-circle-match"
+              className="flow-fact-circle"
               style={{
-                transform: `scale(${0.56 + centerP * 0.44})`,
                 opacity: centerP,
+                transform: `translate3d(-50%,-50%,0) scale(${0.58 + centerP * 0.42})`,
               }}
             >
               <strong>{facts[3].value}</strong>
@@ -85,33 +95,31 @@ export function KeyFactsSection() {
           </article>
 
           <article
-            className="fact-card-match fact-card-image-match fact-card-right-match"
+            className="flow-fact-card flow-fact-card-dark flow-fact-card-right"
             style={{
               opacity: rightP,
               transform:
-                `perspective(900px) translate3d(${(1 - rightP) * 165}px,${(1 - rightP) * 144}px,0) ` +
-                `rotateX(${(1 - rightP) * 17}deg) rotateY(${(1 - rightP) * -14}deg) ` +
-                `rotateZ(${(1 - rightP) * 7}deg) scale(${0.82 + rightP * 0.18})`,
+                `perspective(1000px) translate3d(${(1 - rightP) * 72}px,${(1 - rightP) * 185}px,0) ` +
+                `rotateX(${(1 - rightP) * 18}deg) rotateY(${(1 - rightP) * -12}deg) ` +
+                `rotateZ(${(1 - rightP) * 6}deg) scale(${0.80 + rightP * 0.20})`,
             }}
           >
+            <span className="flow-fact-top">INDUSTRY CLIENTS</span>
             <img src={TRIPO_ASSETS.factTexture} alt="TRIPO featured textured 3D model" />
-            <div className="fact-card-shade" />
-            <span className="fact-card-label">INDUSTRY CLIENTS</span>
-            <span className="fact-card-copy">Production teams using Tripo in real workflows.</span>
+            <div className="flow-fact-gradient" />
+            <p>Production teams using Tripo in real workflows.</p>
             <strong>{facts[2].value}</strong>
           </article>
         </div>
 
         <div
-          className="facts-partners-match"
+          className="flow-facts-partners"
           style={{
-            opacity: partnersP * (1 - exitP * 0.44),
-            transform: `translate3d(-50%,${(1 - partnersP) * 35 + compositionY}px,0)`,
+            opacity: partnersP * (1 - exitP),
+            transform: `translate3d(-50%,${(1 - partnersP) * 28 + contentY}px,0)`,
           }}
         >
-          <span className="facts-partners-title">
-            {facts[1].value} ACTIVE DEVELOPERS
-          </span>
+          <small>{facts[1].value} ACTIVE DEVELOPERS</small>
           <div>
             <span>IMAGE TO 3D</span>
             <span>TEXT TO 3D</span>
