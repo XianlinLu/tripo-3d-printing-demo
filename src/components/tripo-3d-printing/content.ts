@@ -18,7 +18,7 @@ export const TRIPO_ASSETS = {
   serviceCore: `${SITE_ASSET_BASE}/service-core.webp`,
   serviceInput: `${SITE_ASSET_BASE}/service-input.webp`,
   servicePrint: `${SITE_ASSET_BASE}/service-print.webp`,
-  serviceTopology: `${SITE_ASSET_BASE}/service-topology.png`,
+  serviceTopology: `${SITE_ASSET_BASE}/service-topology.webp`,
   serviceDetail: `${SITE_ASSET_BASE}/service-detail.webp`,
 };
 
