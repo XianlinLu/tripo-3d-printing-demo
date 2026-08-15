@@ -1,0 +1,127 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+
+const STUDIO_URL =
+  "https://studio.tripo3d.ai/?category=featured&model_type=all&recommended=recommended&use_case=all";
+
+const GALLERY_DIR = join(process.cwd(), "public", "tripo", "studio-gallery");
+const SITE_DIR = join(process.cwd(), "public", "tripo", "site-assets");
+
+const REQUIRED = 12;
+
+function decodeEmbeddedUrl(value) {
+  return value
+    .replaceAll("\\u0026", "&")
+    .replaceAll("\\u003d", "=")
+    .replaceAll("\\/", "/")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&#38;", "&")
+    .replaceAll("&#x26;", "&")
+    .replaceAll("\\u002F", "/")
+    .replace(/\\+$/g, "");
+}
+
+function collectStudioImages(html) {
+  const normalized = decodeEmbeddedUrl(html);
+  const candidates =
+    normalized.match(
+      /https:\/\/tripo-data-public\.rg1\.data\.tripo3d\.com\/tripo-studio\/[^"'<>\\\s]+?studio_mesh\.webp(?:\?[^"'<>\\\s]+)?/g
+    ) ?? [];
+
+  const unique = [];
+  const seen = new Set();
+
+  for (const raw of candidates) {
+    const cleaned = decodeEmbeddedUrl(raw).replace(/&quot;.*$/i, "");
+    try {
+      const parsed = new URL(cleaned);
+      const key = `${parsed.origin}${parsed.pathname}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      unique.push(cleaned);
+    } catch {}
+  }
+
+  return unique;
+}
+
+async function fetchImage(url, label) {
+  const response = await fetch(url, {
+    redirect: "follow",
+    headers: {
+      "user-agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/151 Safari/537.36",
+      referer: "https://studio.tripo3d.ai/",
+      accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`${label} failed: HTTP ${response.status}`);
+  }
+
+  const type = response.headers.get("content-type") ?? "";
+  if (!type.startsWith("image/")) {
+    throw new Error(`${label} returned ${type || "unknown content type"}`);
+  }
+
+  const data = Buffer.from(await response.arrayBuffer());
+  if (data.length < 8_000) {
+    throw new Error(`${label} is unexpectedly small (${data.length} bytes)`);
+  }
+
+  return data;
+}
+
+console.log(`Fetching TRIPO Studio gallery: ${STUDIO_URL}`);
+
+const pageResponse = await fetch(STUDIO_URL, {
+  redirect: "follow",
+  headers: {
+    "user-agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/151 Safari/537.36",
+    accept: "text/html,application/xhtml+xml",
+  },
+});
+
+if (!pageResponse.ok) {
+  throw new Error(`TRIPO Studio page failed: HTTP ${pageResponse.status}`);
+}
+
+const html = await pageResponse.text();
+const urls = collectStudioImages(html);
+
+console.log(`Found ${urls.length} unique featured model images.`);
+
+if (urls.length < REQUIRED) {
+  throw new Error(
+    `Need at least ${REQUIRED} unique TRIPO Studio images, only found ${urls.length}.`
+  );
+}
+
+await mkdir(GALLERY_DIR, { recursive: true });
+await mkdir(SITE_DIR, { recursive: true });
+
+const files = [
+  [GALLERY_DIR, "gallery-01.webp"],
+  [GALLERY_DIR, "gallery-02.webp"],
+  [GALLERY_DIR, "case-jewelry.webp"],
+  [GALLERY_DIR, "case-sculpture.webp"],
+  [GALLERY_DIR, "case-miniature.webp"],
+  [GALLERY_DIR, "gallery-06.webp"],
+  [GALLERY_DIR, "gallery-07.webp"],
+  [SITE_DIR, "service-core.webp"],
+  [SITE_DIR, "service-input.webp"],
+  [SITE_DIR, "service-print.webp"],
+  [SITE_DIR, "service-topology.webp"],
+  [SITE_DIR, "service-detail.webp"],
+];
+
+for (let i = 0; i < files.length; i += 1) {
+  const [dir, fileName] = files[i];
+  const data = await fetchImage(urls[i], fileName);
+  await writeFile(join(dir, fileName), data);
+  console.log(`Saved ${fileName} (${data.length} bytes)`);
+}
+
+console.log(`Saved ${files.length} non-repeating TRIPO Studio images.`);
