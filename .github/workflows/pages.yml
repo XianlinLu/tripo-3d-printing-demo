@@ -45,7 +45,7 @@ jobs:
           test -s public/tripo/site-assets/service-core.webp
           test -s public/tripo/site-assets/service-input.webp
           test -s public/tripo/site-assets/service-print.webp
-          test -s public/tripo/site-assets/service-topology.png
+          test -s public/tripo/site-assets/service-topology.webp
           test -s public/tripo/site-assets/service-detail.webp
           ls -lh public/tripo/studio-gallery
           ls -lh public/tripo/site-assets
