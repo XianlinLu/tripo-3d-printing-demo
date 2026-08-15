@@ -1,5 +1,6 @@
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const GALLERY_BASE = `${BASE}/tripo/studio-gallery`;
+const SITE_ASSET_BASE = `${BASE}/tripo/site-assets`;
 
 export const SITE = {
   logo: `${BASE}/tripo/tripo-logo.png`,
@@ -9,11 +10,16 @@ export const SITE = {
 export const TRIPO_ASSETS = {
   factModel: `${GALLERY_BASE}/gallery-01.webp`,
   factTexture: `${GALLERY_BASE}/gallery-02.webp`,
-  caseJewelry: `${GALLERY_BASE}/gallery-03.webp`,
-  caseSculpture: `${GALLERY_BASE}/gallery-04.webp`,
-  caseMiniature: `${GALLERY_BASE}/gallery-05.webp`,
+  caseJewelry: `${GALLERY_BASE}/case-jewelry.webp`,
+  caseSculpture: `${GALLERY_BASE}/case-sculpture.webp`,
+  caseMiniature: `${GALLERY_BASE}/case-miniature.webp`,
   workflowLeft: `${GALLERY_BASE}/gallery-06.webp`,
   workflowRight: `${GALLERY_BASE}/gallery-07.webp`,
+  serviceCore: `${SITE_ASSET_BASE}/service-core.webp`,
+  serviceInput: `${SITE_ASSET_BASE}/service-input.webp`,
+  servicePrint: `${SITE_ASSET_BASE}/service-print.webp`,
+  serviceTopology: `${SITE_ASSET_BASE}/service-topology.png`,
+  serviceDetail: `${SITE_ASSET_BASE}/service-detail.webp`,
 };
 
 export const hero = {
