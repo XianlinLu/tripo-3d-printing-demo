@@ -1,53 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { SITE } from "./content";
+import { subscribeSound, toggleSound } from "./soundState";
 
 export function AudioToggle() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    const audio = new Audio(SITE.audio);
-    audio.loop = true;
-    audio.preload = "auto";
-    audio.volume = 0.82;
-    audioRef.current = audio;
-
-    const handlePlay = () => setPlaying(true);
-    const handlePause = () => setPlaying(false);
-
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-
-    return () => {
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-      audio.pause();
-      audio.src = "";
-      audioRef.current = null;
-    };
+    return subscribeSound(setPlaying);
   }, []);
-
-  const toggle = async () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (audio.paused) {
-      try {
-        await audio.play();
-      } catch {
-        setPlaying(false);
-      }
-    } else {
-      audio.pause();
-    }
-  };
 
   return (
     <button
       className={`sound-orb ${playing ? "is-playing" : "is-muted"}`}
-      onClick={toggle}
+      onClick={() => void toggleSound(SITE.audio)}
       aria-label={playing ? "Turn sound off" : "Turn sound on"}
       aria-pressed={playing}
       title={playing ? "Sound on" : "Sound off"}

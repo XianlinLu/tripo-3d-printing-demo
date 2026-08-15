@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import { isSoundEnabled, subscribeSound } from "./soundState";
 
 type Point = { x: number; y: number };
 type Bolt = { from: Point; to: Point; born: number; life: number; seed: number };
@@ -301,6 +302,7 @@ export function HeroSymbolScene() {
     let sparkWasAway = true;
     let intro = 0;
     let lastSpark = 0;
+    let soundEnabled = isSoundEnabled();
 
     const bolts: Bolt[] = [];
     const sparks: Spark[] = [];
@@ -316,7 +318,7 @@ export function HeroSymbolScene() {
     };
 
     const hoverBeep = (freq: number) => {
-      if (!audioCtx) return;
+      if (!soundEnabled || !audioCtx) return;
       const c = audio();
       const o = c.createOscillator();
       const g = c.createGain();
@@ -333,7 +335,7 @@ export function HeroSymbolScene() {
     };
 
     const sparkSound = () => {
-      if (!audioCtx) return;
+      if (!soundEnabled || !audioCtx) return;
       const c = audio();
       const b = c.createBuffer(
         1,
@@ -365,6 +367,7 @@ export function HeroSymbolScene() {
     };
 
     const explodeSound = () => {
+      if (!soundEnabled) return;
       const c = audio();
       const b = c.createBuffer(
         1,
@@ -422,6 +425,11 @@ export function HeroSymbolScene() {
       woosh = null;
       wooshGain = null;
     };
+
+    const unsubscribeSound = subscribeSound((enabled) => {
+      soundEnabled = enabled;
+      if (!enabled) stopWoosh();
+    });
 
     const ctx = lineCanvas.getContext("2d");
     if (!ctx) return;
@@ -514,7 +522,7 @@ export function HeroSymbolScene() {
       // a precise click on a mesh. This matches the screen-hold gesture.
       if (getHeroProgress() > 0.16) return;
 
-      audio();
+      if (soundEnabled) audio();
       holding = true;
       holdTime = 0;
       chargeAmt = 0;
@@ -1109,6 +1117,7 @@ export function HeroSymbolScene() {
         el.style.transformOrigin = "";
       });
 
+      unsubscribeSound();
       stopWoosh();
       audioCtx?.close();
 
