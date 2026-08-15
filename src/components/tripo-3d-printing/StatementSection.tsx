@@ -33,7 +33,9 @@ function ProgressiveWords({
         const ratio = words.length <= 1 ? 0 : index / (words.length - 1);
         const wordStart = start + range * ratio * 0.78;
         const wordEnd = wordStart + range * 0.22;
-        const t = smooth((progress - wordStart) / Math.max(0.0001, wordEnd - wordStart));
+        const t = smooth(
+          (progress - wordStart) / Math.max(0.0001, wordEnd - wordStart)
+        );
         const c = Math.round(62 + t * 174);
         const opacity = 0.36 + t * 0.64;
 
@@ -55,6 +57,19 @@ function ProgressiveWords({
   );
 }
 
+function MarqueeGroup({ hidden = false }: { hidden?: boolean }) {
+  return (
+    <div className="flow-marquee-group" aria-hidden={hidden || undefined}>
+      {statement.marquee.map((word) => (
+        <span key={`${hidden ? "copy" : "main"}-${word}`}>
+          {word}
+          <b>+</b>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function StatementSection() {
   const ref = useRef<HTMLElement | null>(null);
   const p = useScrollProgress(ref);
@@ -64,15 +79,19 @@ export function StatementSection() {
   const detailIn = smooth((p - 0.13) / 0.12);
   const headlineExit = smooth((p - 0.40) / 0.14);
 
-  const marqueeIn = smooth((p - 0.38) / 0.12);
-  const marqueeMove = clamp01((p - 0.42) / 0.45);
+  // Scroll only reveals the marquee stage.
+  // Once the stage is reached, the track moves automatically via CSS animation.
+  const marqueeIn = smooth((p - 0.43) / 0.10);
+  const marqueeRunning = p >= 0.48;
 
-  // Do not start the transition while the statement copy is still revealing.
-  // The blinds begin only after the giant PRINT / ITERATE / IMPACT marquee is established.
-  const wipe = clamp01((p - 0.82) / 0.18);
-  const blind1 = smooth(wipe / 0.40);
-  const blind2 = smooth((wipe - 0.14) / 0.40);
-  const blind3 = smooth((wipe - 0.28) / 0.40);
+  // Transition starts only after the marquee is already established.
+  const wipe = clamp01((p - 0.84) / 0.15);
+
+  // Video timing: hairline -> thicker band -> additional blinds -> Key Facts.
+  const lineIn = smooth(wipe / 0.20);
+  const bandGrow = smooth((wipe - 0.12) / 0.42);
+  const blind2 = smooth((wipe - 0.34) / 0.34);
+  const blind3 = smooth((wipe - 0.52) / 0.30);
 
   const line1 = statement.line1;
   const secondWords = wordsOf(statement.line2);
@@ -82,8 +101,6 @@ export function StatementSection() {
 
   const headlineY = (1 - headlineIn) * 42 - headlineExit * 235;
   const detailsY = (1 - detailIn) * 34 - headlineExit * 125;
-  const marqueeX = 7 - marqueeMove * 36;
-  const marqueeY = 77 - marqueeMove * 18;
 
   return (
     <section ref={ref} className="statement-shell flow-statement-shell">
@@ -110,14 +127,29 @@ export function StatementSection() {
         >
           <h2>
             <span className="flow-headline-line">
-              <ProgressiveWords text={line1} progress={reveal} start={0.00} end={0.42} />
+              <ProgressiveWords
+                text={line1}
+                progress={reveal}
+                start={0.0}
+                end={0.42}
+              />
             </span>
             <span className="flow-headline-line">
-              <ProgressiveWords text={line2} progress={reveal} start={0.20} end={0.80} />
+              <ProgressiveWords
+                text={line2}
+                progress={reveal}
+                start={0.2}
+                end={0.8}
+              />
             </span>
             {line3 ? (
               <span className="flow-headline-line">
-                <ProgressiveWords text={line3} progress={reveal} start={0.52} end={1.00} />
+                <ProgressiveWords
+                  text={line3}
+                  progress={reveal}
+                  start={0.52}
+                  end={1.0}
+                />
               </span>
             ) : null}
           </h2>
@@ -160,29 +192,40 @@ export function StatementSection() {
           className="statement-marquee flow-statement-marquee"
           style={{
             opacity: marqueeIn,
-            transform: `translate3d(${marqueeX}vw,${marqueeY}vh,0)`,
+            transform: `translate3d(0,${(1 - marqueeIn) * 18}vh,0)`,
           }}
         >
-          {[...statement.marquee, ...statement.marquee].map((word, index) => (
-            <span key={`${word}-${index}`}>
-              {word}
-              <b>+</b>
-            </span>
-          ))}
+          <div
+            className={`flow-marquee-track ${
+              marqueeRunning ? "is-running" : ""
+            }`}
+          >
+            <MarqueeGroup />
+            <MarqueeGroup hidden />
+          </div>
         </div>
 
         <div className="flow-venetian-transition" aria-hidden="true">
           <i
-            className="flow-blind flow-blind-1"
-            style={{ transform: `translate3d(0,${(1 - blind1) * 120}vh,0)` }}
+            className="flow-blind flow-blind-main"
+            style={{
+              height: `calc(2px + ${bandGrow * 10.5}vh)`,
+              transform: `translate3d(0,${(1 - lineIn) * 110}vh,0)`,
+            }}
           />
           <i
             className="flow-blind flow-blind-2"
-            style={{ transform: `translate3d(0,${(1 - blind2) * 120}vh,0)` }}
+            style={{
+              height: `calc(2px + ${blind2 * 8.8}vh)`,
+              transform: `translate3d(0,${(1 - blind2) * 110}vh,0)`,
+            }}
           />
           <i
             className="flow-blind flow-blind-3"
-            style={{ transform: `translate3d(0,${(1 - blind3) * 120}vh,0)` }}
+            style={{
+              height: `calc(2px + ${blind3 * 7.2}vh)`,
+              transform: `translate3d(0,${(1 - blind3) * 110}vh,0)`,
+            }}
           />
         </div>
       </div>

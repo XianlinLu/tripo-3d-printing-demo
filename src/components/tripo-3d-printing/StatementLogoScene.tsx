@@ -203,19 +203,20 @@ export function StatementLogoScene({ progress }: { progress: number }) {
       const p = progressRef.current;
 
       // Keep the logo intact when this section first arrives.
-      // It starts scattering only while the TURN VISION / statement copy is being traversed.
-      const scatterIn = smooth((p - 0.12) / 0.22);
+      // Phase 1: enter TURN VISION with the normal assembled logo.
+      // Phase 2: scatter only while the statement / TURN VISION copy is traversed.
+      const scatterIn = smooth((p - 0.13) / 0.24);
 
-      // As the giant PRINT / ITERATE / IMPACT marquee begins moving right-to-left,
-      // the fragments reassemble back into the default TRIPO logo.
-      const reassemble = smooth((p - 0.46) / 0.18);
+      // Phase 3: as the large PRINT / ITERATE / IMPACT marquee stage arrives,
+      // reassemble the fragments back to the default logo.
+      const reassemble = smooth((p - 0.48) / 0.18);
       const scattered = scatterIn * (1 - reassemble);
       const assemble = 1 - scattered;
 
-      // Keep the completed logo behind the marquee.
-      // Fade it only when the venetian-blind transition actually starts.
-      const shutterStart = 0.82;
-      const fade = 1 - smooth((p - shutterStart) / 0.055);
+      // Hold the fully assembled logo behind the auto-moving marquee.
+      // Fade it only when the venetian-blind transition actually begins.
+      const shutterStart = 0.84;
+      const fade = 1 - smooth((p - shutterStart) / 0.05);
 
       group.visible = fade > 0.002;
       group.position.x = 0.35 + Math.sin(t * 0.24) * 0.03;
