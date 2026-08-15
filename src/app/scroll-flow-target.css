@@ -1,11 +1,12 @@
-/* Short transition version calibrated against the supplied video.
-   The previous six-row wipe was intentionally removed. */
+/* Recalibrated from the supplied 19.9s transition recording.
+   One real Key Facts section only. The duplicated transition-preview title is removed. */
 
 .site-nav{position:fixed!important}
 
+/* ---------- Dark statement ---------- */
 .flow-statement-shell{
   position:relative!important;
-  height:215vh!important;
+  height:210vh!important;
   min-height:0!important;
   background:#080909!important;
 }
@@ -19,7 +20,22 @@
   place-items:unset!important;
   background:#080909!important;
 }
-.flow-bg-lines{position:absolute;inset:0;z-index:0;opacity:.14;pointer-events:none}
+.flow-statement-logo-scene{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+.flow-statement-logo-canvas{
+  position:absolute;
+  inset:0;
+  width:100%!important;
+  height:100%!important;
+  display:block;
+}
+.flow-bg-lines{
+  position:absolute;inset:0;z-index:2;opacity:.13;pointer-events:none
+}
 .flow-bg-lines i{
   position:absolute;left:-10vw;width:120vw;height:1px;
   background:linear-gradient(90deg,transparent,rgba(105,116,130,.55),transparent);
@@ -46,7 +62,6 @@
 }
 .flow-headline-line{display:block;white-space:nowrap}
 .flow-word{display:inline-block;will-change:filter,color}
-
 .flow-rule{
   position:absolute;z-index:4;left:10.2vw;right:24vw;top:57.8vh;height:1px;
   background:rgba(137,143,150,.30);transform-origin:left center;will-change:transform,opacity
@@ -71,53 +86,77 @@
   letter-spacing:-.067em!important;color:#ededeb!important;
   will-change:transform,opacity!important
 }
-.flow-statement-marquee span{display:inline-flex!important;align-items:center!important;gap:38px!important}
+.flow-statement-marquee span{
+  display:inline-flex!important;align-items:center!important;gap:38px!important
+}
 .flow-statement-marquee b{
   color:#747678!important;font-size:.30em!important;font-weight:300!important;letter-spacing:0!important
 }
 
-/* Only two temporary horizontal strips, followed immediately by the paper page. */
-.flow-transition-wipe{
-  position:absolute;z-index:12;inset:0;overflow:hidden;pointer-events:none
+/* ---------- Venetian-blind transition ----------
+   Three light blades rise through the dark composition. The background logo is
+   already hidden by this point, exactly when the shutters begin. */
+.flow-venetian-transition{
+  position:absolute;
+  z-index:12;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
 }
-.flow-transition-band,.flow-transition-paper{
-  position:absolute;left:0;right:0;background:#e9e9e6;will-change:transform
+.flow-blind,
+.flow-paper-rise{
+  position:absolute;
+  left:0;
+  right:0;
+  will-change:transform;
 }
-.flow-transition-band{
-  height:10vh;border-top:1px solid rgba(70,70,67,.15);
-  border-bottom:1px solid rgba(70,70,67,.10)
+.flow-blind{
+  height:8.6vh;
+  min-height:58px;
+  background:#e8e8e5;
+  border-top:1px solid rgba(50,50,48,.18);
+  border-bottom:1px solid rgba(50,50,48,.12);
 }
-.flow-transition-band-a{bottom:0}
-.flow-transition-band-b{bottom:21vh;background:#f0f0ed}
-.flow-transition-paper{
-  z-index:2;bottom:0;height:100%;
-  background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.5),transparent 40%),#e7e7e4
-}
-.flow-transition-keyfacts-preview{
-  position:absolute;z-index:4;left:50%;top:12.2vh;width:700px;max-width:78vw;
-  text-align:center;color:#3e3e3c;will-change:transform,opacity
-}
-.flow-transition-keyfacts-preview strong{
-  display:block;font-size:clamp(52px,4.20vw,80px);font-weight:400;
-  line-height:.92;letter-spacing:-.060em
-}
-.flow-transition-keyfacts-preview span{
-  display:block;margin-top:16px;color:#5f5f5c;font-size:12px;
-  line-height:1.16;letter-spacing:-.025em
+.flow-blind-1{bottom:4vh}
+.flow-blind-2{bottom:24vh;background:#efefec}
+.flow-blind-3{bottom:44vh;background:#e5e5e2}
+.flow-paper-rise{
+  z-index:2;
+  bottom:0;
+  height:100%;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,255,255,.44),transparent 40%),
+    #e7e7e4;
 }
 
-/* Key facts starts with visible title, not a blank paper viewport. */
+/* ---------- The single, real Key Facts section ---------- */
 .flow-facts-shell{
-  position:relative!important;height:155vh!important;min-height:0!important;padding:0!important;
-  background:#e7e7e4!important;color:#3b3b39!important
+  position:relative!important;
+  height:150vh!important;
+  min-height:0!important;
+  padding:0!important;
+  background:#e7e7e4!important;
+  color:#3b3b39!important
 }
 .flow-facts-sticky{
-  position:sticky;top:0;height:100vh;min-height:650px;overflow:hidden;
-  background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.48),transparent 38%),#e7e7e4
+  position:sticky;
+  top:0;
+  height:100vh;
+  min-height:650px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,255,255,.48),transparent 38%),
+    #e7e7e4
 }
 .flow-facts-heading{
-  position:absolute;z-index:5;left:50%;top:12.2vh;width:700px;max-width:78vw;
-  text-align:center;will-change:transform,opacity
+  position:absolute;
+  z-index:5;
+  left:50%;
+  top:12.2vh;
+  width:700px;
+  max-width:78vw;
+  text-align:center;
+  will-change:transform,opacity
 }
 .flow-facts-heading h2{
   margin:0!important;padding:0!important;color:#3e3e3c!important;
@@ -167,18 +206,16 @@
   position:absolute;left:52px;right:52px;bottom:39px;margin:0;
   color:#6b6b68;font-size:12px;line-height:1.18;text-align:center
 }
-.flow-facts-partners{
-  position:absolute;z-index:5;left:50%;bottom:2.8vh;width:760px;max-width:76vw;
-  text-align:center;color:#555552;will-change:transform,opacity
+
+/* Remove all legacy / duplicated Key Facts systems and the bottom label row. */
+.facts-topline,
+.facts-heading,
+.facts-editorial-grid,
+.facts-partners,
+.flow-facts-partners,
+.flow-transition-keyfacts-preview{
+  display:none!important
 }
-.flow-facts-partners small{
-  display:block;margin-bottom:17px;color:#787875;font-size:8px;letter-spacing:.04em
-}
-.flow-facts-partners>div{
-  display:flex;justify-content:space-between;align-items:center;gap:32px;
-  font-size:9px;font-weight:500;letter-spacing:-.025em
-}
-.facts-topline,.facts-heading,.facts-editorial-grid,.facts-partners{display:none!important}
 
 @media(max-width:1280px){
   .flow-fact-card{width:290px;height:372px}
@@ -189,9 +226,11 @@
   .flow-fact-circle strong{font-size:38px}
 }
 @media(max-width:900px){
-  .flow-statement-shell{height:200vh!important}
+  .flow-statement-shell{height:195vh!important}
   .flow-statement-headline{left:18px;right:18px;top:19vh}
-  .flow-statement-headline h2{width:100%!important;font-size:clamp(38px,9vw,56px)!important;line-height:.98!important}
+  .flow-statement-headline h2{
+    width:100%!important;font-size:clamp(38px,9vw,56px)!important;line-height:.98!important
+  }
   .flow-headline-line{white-space:normal}
   .flow-side-label{left:18px;top:13vh}
   .flow-rule{left:18px;right:18px;top:57vh}
@@ -199,9 +238,9 @@
   .flow-statement-detail-right{right:18px;top:74vh;width:270px}
   .flow-statement-marquee{font-size:clamp(62px,15vw,92px)!important}
 
-  .flow-facts-shell{height:210vh!important}
-  .flow-facts-heading,.flow-transition-keyfacts-preview{top:10vh;width:88vw}
-  .flow-facts-heading h2,.flow-transition-keyfacts-preview strong{font-size:clamp(48px,11vw,68px)!important}
+  .flow-facts-shell{height:205vh!important}
+  .flow-facts-heading{top:10vh;width:88vw}
+  .flow-facts-heading h2{font-size:clamp(48px,11vw,68px)!important}
   .flow-facts-cards{
     top:27vh;width:calc(100vw - 36px);display:grid;
     grid-template-columns:1fr 1fr;gap:12px
@@ -209,6 +248,4 @@
   .flow-fact-card{width:auto;height:300px}
   .flow-fact-card-center{grid-column:1/-1;height:240px}
   .flow-fact-card-dark img{top:68px;height:150px}
-  .flow-facts-partners{bottom:3vh;width:calc(100vw - 36px);max-width:none}
-  .flow-facts-partners>div{flex-wrap:wrap;justify-content:center}
 }
