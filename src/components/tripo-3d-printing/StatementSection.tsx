@@ -33,7 +33,6 @@ function ProgressiveWords({
         const wordStart = start + range * ratio * 0.78;
         const wordEnd = wordStart + range * 0.22;
         const t = smooth((progress - wordStart) / Math.max(0.0001, wordEnd - wordStart));
-
         const c = Math.round(62 + t * 174);
         const opacity = 0.36 + t * 0.64;
 
@@ -59,18 +58,20 @@ export function StatementSection() {
   const ref = useRef<HTMLElement | null>(null);
   const p = useScrollProgress(ref);
 
-  // The recording never has a dead/blank phase:
-  // headline -> supporting copy -> giant marquee -> stripe wipe.
-  const headlineIn = smooth((p - 0.005) / 0.07);
-  const reveal = clamp01((p - 0.015) / 0.38);
-  const detailIn = smooth((p - 0.18) / 0.15);
-  const headlineExit = smooth((p - 0.43) / 0.18);
+  const headlineIn = smooth((p + 0.01) / 0.07);
+  const reveal = clamp01((p - 0.005) / 0.34);
+  const detailIn = smooth((p - 0.13) / 0.12);
+  const headlineExit = smooth((p - 0.40) / 0.14);
 
-  const marqueeIn = smooth((p - 0.45) / 0.14);
-  const marqueeMove = clamp01((p - 0.48) / 0.36);
-  const marqueeExit = smooth((p - 0.955) / 0.035);
+  const marqueeIn = smooth((p - 0.38) / 0.12);
+  const marqueeMove = clamp01((p - 0.42) / 0.45);
 
-  const wipeProgress = clamp01((p - 0.80) / 0.19);
+  // Very short transition window, matching the supplied recording.
+  const wipe = clamp01((p - 0.885) / 0.105);
+  const bandA = smooth(wipe / 0.43);
+  const bandB = smooth((wipe - 0.18) / 0.43);
+  const paper = smooth((wipe - 0.34) / 0.66);
+  const keyPreview = smooth((wipe - 0.72) / 0.28);
 
   const line1 = statement.line1;
   const secondWords = wordsOf(statement.line2);
@@ -78,10 +79,10 @@ export function StatementSection() {
   const line2 = secondWords.slice(0, split).join(" ");
   const line3 = secondWords.slice(split).join(" ");
 
-  const headlineY = (1 - headlineIn) * 48 - headlineExit * 260;
-  const detailsY = (1 - detailIn) * 42 - headlineExit * 140;
-  const marqueeX = 8 - marqueeMove * 34;
-  const marqueeY = 76 - marqueeMove * 20;
+  const headlineY = (1 - headlineIn) * 42 - headlineExit * 235;
+  const detailsY = (1 - detailIn) * 34 - headlineExit * 125;
+  const marqueeX = 7 - marqueeMove * 36;
+  const marqueeY = 77 - marqueeMove * 18;
 
   return (
     <section ref={ref} className="statement-shell flow-statement-shell">
@@ -90,7 +91,10 @@ export function StatementSection() {
           <i /><i /><i /><i /><i />
         </div>
 
-        <div className="flow-side-label">
+        <div
+          className="flow-side-label"
+          style={{ opacity: 1 - headlineExit * 0.85 }}
+        >
           {statement.kicker}
         </div>
 
@@ -103,14 +107,14 @@ export function StatementSection() {
         >
           <h2>
             <span className="flow-headline-line">
-              <ProgressiveWords text={line1} progress={reveal} start={0.00} end={0.44} />
+              <ProgressiveWords text={line1} progress={reveal} start={0.00} end={0.42} />
             </span>
             <span className="flow-headline-line">
-              <ProgressiveWords text={line2} progress={reveal} start={0.23} end={0.82} />
+              <ProgressiveWords text={line2} progress={reveal} start={0.20} end={0.80} />
             </span>
             {line3 ? (
               <span className="flow-headline-line">
-                <ProgressiveWords text={line3} progress={reveal} start={0.55} end={1.00} />
+                <ProgressiveWords text={line3} progress={reveal} start={0.52} end={1.00} />
               </span>
             ) : null}
           </h2>
@@ -152,7 +156,7 @@ export function StatementSection() {
         <div
           className="statement-marquee flow-statement-marquee"
           style={{
-            opacity: marqueeIn * (1 - marqueeExit),
+            opacity: marqueeIn,
             transform: `translate3d(${marqueeX}vw,${marqueeY}vh,0)`,
           }}
         >
@@ -164,18 +168,33 @@ export function StatementSection() {
           ))}
         </div>
 
-        <div className="flow-stripe-wipe" aria-hidden="true">
-          {Array.from({ length: 6 }).map((_, index) => {
-            const local = smooth((wipeProgress - index * 0.105) / 0.47);
-            return (
-              <i
-                key={index}
-                style={{
-                  transform: `translate3d(0,${(1 - local) * 108}%,0)`,
-                }}
-              />
-            );
-          })}
+        <div className="flow-transition-wipe" aria-hidden="true">
+          <i
+            className="flow-transition-band flow-transition-band-a"
+            style={{ transform: `translate3d(0,${(1 - bandA) * 125}%,0)` }}
+          />
+          <i
+            className="flow-transition-band flow-transition-band-b"
+            style={{ transform: `translate3d(0,${(1 - bandB) * 125}%,0)` }}
+          />
+          <i
+            className="flow-transition-paper"
+            style={{ transform: `translate3d(0,${(1 - paper) * 102}%,0)` }}
+          />
+          <div
+            className="flow-transition-keyfacts-preview"
+            style={{
+              opacity: keyPreview,
+              transform: `translate3d(-50%,${(1 - keyPreview) * 22}px,0)`,
+            }}
+          >
+            <strong>Key facts</strong>
+            <span>
+              A snapshot of a global AI 3D workspace built to move
+              <br />
+              from inspiration to usable assets faster.
+            </span>
+          </div>
         </div>
       </div>
     </section>
