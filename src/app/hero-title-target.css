@@ -1,24 +1,22 @@
-/* Hero title calibration from supplied TRIONN DevTools + recording.
-   The reference selected character renders at ~75px in the captured viewport,
-   with a very tight ~0.80 line-height and -0.06em tracking. */
+/* Hero typography: exact 16px vertical gap between all three title rows. */
 
 .hero-copy-target{
   top:12.9vh!important;
   left:30px!important;
   width:min(760px,43vw)!important;
 }
-
 .hero-copy-target .hero-eyebrow{
   margin-bottom:32px!important;
 }
-
 .hero-title-target{
   margin:0!important;
   padding:0!important;
-  display:block!important;
   width:max-content!important;
   max-width:none!important;
-  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:16px!important;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important;
   font-size:clamp(60px,3.9vw,75px)!important;
   font-weight:400!important;
   line-height:.80!important;
@@ -26,38 +24,31 @@
   color:#efefec!important;
   white-space:nowrap!important;
 }
-
 .hero-title-line{
   display:block!important;
-  height:.80em!important;
+  height:auto!important;
   margin:0!important;
   padding:0!important;
+  line-height:.80!important;
   overflow:visible!important;
 }
-
 .hero-title-line-2,
 .hero-title-line-3{
-  margin-top:0!important;
+  margin:0!important;
 }
-
 .hero-title-char{
   display:inline-block;
   vertical-align:top;
   transform-origin:center center;
 }
-
 .hero-rotating-word{
   display:inline-block;
   min-width:8.4ch;
   white-space:nowrap;
 }
-
 .hero-copy-target .hero-cta-row{
   margin-top:31px!important;
 }
-
-/* Override the older per-line title rules, which otherwise make the lines
-   render at different sizes. */
 .hero-copy-target .hero-title-a,
 .hero-copy-target .hero-title-b,
 .hero-copy-target .hero-title-c{
@@ -65,23 +56,13 @@
   line-height:inherit!important;
   margin:0!important;
 }
-
-/* Desktop alignment matching the target capture. */
 @media (min-width:1440px){
-  .hero-copy-target{
-    width:min(760px,42vw)!important;
-  }
+  .hero-copy-target{width:min(760px,42vw)!important}
 }
-
 @media (max-width:1100px){
-  .hero-title-target{
-    font-size:clamp(52px,5.55vw,64px)!important;
-  }
-  .hero-copy-target{
-    width:62vw!important;
-  }
+  .hero-title-target{font-size:clamp(52px,5.55vw,64px)!important}
+  .hero-copy-target{width:62vw!important}
 }
-
 @media (max-width:900px){
   .hero-copy-target{
     left:18px!important;
@@ -91,12 +72,11 @@
   .hero-title-target{
     font-size:clamp(43px,10.5vw,58px)!important;
     line-height:.84!important;
+    gap:16px!important;
     white-space:normal!important;
   }
   .hero-title-line{
-    height:auto!important;
+    line-height:.84!important;
   }
-  .hero-rotating-word{
-    min-width:0;
-  }
+  .hero-rotating-word{min-width:0}
 }
