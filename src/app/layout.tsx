@@ -6,7 +6,7 @@ import "./sound-toggle-v2.css";
 import "./menu-target.css";
 import "./hero-title-target.css";
 import "./scroll-flow-target.css";
-import "./post-keyfacts-target.css";
+import "./trionn-post-keyfacts-v2.css";
 
 export const metadata: Metadata = {
   title: "Tripo 3D Printing — Interactive Experience",
