@@ -1,7 +1,14 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cases, SITE, TRIPO_ASSETS } from "../content";
+import { useScrollProgress } from "../useScrollProgress";
+
+const clamp = (value: number) => Math.max(0, Math.min(1, value));
+const ease = (value: number) => {
+  const t = clamp(value);
+  return t * t * (3 - 2 * t);
+};
 
 const stories = [
   {
@@ -31,6 +38,67 @@ const motionImages = [
   TRIPO_ASSETS.servicePrint,
   TRIPO_ASSETS.caseMiniature,
 ];
+
+function MotionSection() {
+  const ref = useRef<HTMLElement | null>(null);
+  const progress = useScrollProgress(ref);
+  const titleExit = ease((progress - 0.08) / 0.12);
+  const ribbonProgress = ease((progress - 0.2) / 0.62);
+  const ribbonEnter = ease((progress - 0.24) / 0.08);
+  const ribbonLeave = 1 - ease((progress - 0.86) / 0.08);
+  const ribbonOpacity = ribbonEnter * ribbonLeave;
+  const cardStyles = useMemo(
+    () => motionImages.map((_, index) => {
+      const offset = index + 1 - ribbonProgress * 6;
+      const distance = Math.abs(offset);
+      const edgeOpacity = clamp((2.35 - distance) / 0.5);
+      const x = offset * 16.5;
+      const y = -13 + offset * offset * 4.2;
+      const z = 180 - distance * 48;
+      const rotateZ = offset * 7;
+      const rotateY = -offset * 4.5;
+      const scale = 0.94 + clamp((2 - distance) / 2) * 0.06;
+      return {
+        opacity: ribbonOpacity * edgeOpacity,
+        transform: `translate3d(calc(-50% + ${x.toFixed(2)}vw), calc(-50% + ${y.toFixed(2)}vh), ${z.toFixed(2)}px) rotateY(${rotateY.toFixed(2)}deg) rotateZ(${rotateZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`,
+      };
+    }),
+    [ribbonOpacity, ribbonProgress],
+  );
+
+  return (
+    <section ref={ref} id="motion" className="tkf-motion" aria-label="Design in motion">
+      <div className="tkf-motion-sticky">
+        <h2
+          style={{
+            opacity: 1 - titleExit,
+            transform: `translate3d(-50%, calc(-50% - ${(titleExit * 42).toFixed(2)}px), 0) scale(${(1 - titleExit * 0.06).toFixed(3)})`,
+          }}
+        >
+          Design in<br />motion
+        </h2>
+        <div className="tkf-motion-orbit" style={{ opacity: ribbonOpacity * 0.72 }} aria-hidden="true" />
+        <div className="tkf-motion-ribbon">
+          {motionImages.map((image, index) => (
+            <figure className="tkf-motion-card" key={`${image}-${index}`} style={cardStyles[index]}>
+              <img src={image} alt="TRIPO AI-generated 3D project" />
+            </figure>
+          ))}
+        </div>
+        <p style={{ opacity: ribbonOpacity }}>Generation, refinement, texturing, and output move together in one continuous AI 3D workflow.</p>
+        <a
+          className="tkf-text-link"
+          href="https://studio.tripo3d.ai/"
+          target="_blank"
+          rel="noreferrer"
+          style={{ opacity: ribbonOpacity }}
+        >
+          Explore Tripo Studio <span>→</span>
+        </a>
+      </div>
+    </section>
+  );
+}
 
 export function LowerSections() {
   const [story, setStory] = useState(0);
@@ -80,20 +148,7 @@ export function LowerSections() {
         <div className="tkf-story-progress"><span style={{ width: `${(story + 1) * 33.333}%` }} /></div>
       </section>
 
-      <section id="motion" className="tkf-motion">
-        <h2>Design in<br />motion</h2>
-        <div className="tkf-motion-arc">
-          {motionImages.map((image, index) => (
-            <figure key={`${image}-${index}`} style={{ "--index": index } as CSSProperties}>
-              <img src={image} alt="TRIPO AI-generated 3D project" />
-            </figure>
-          ))}
-        </div>
-        <p>Generation, refinement, texturing, and output move together in one continuous AI 3D workflow.</p>
-        <a className="tkf-text-link" href="https://studio.tripo3d.ai/" target="_blank" rel="noreferrer">
-          Explore Tripo Studio <span>→</span>
-        </a>
-      </section>
+      <MotionSection />
 
       <footer id="footer" className="tkf-footer">
         <div className="tkf-footer-glow tkf-footer-glow-a" />

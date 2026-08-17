@@ -58,6 +58,7 @@ function ProjectPanel({ index, horizontalProgress }: {
 }
 
 const services = helixCards.slice(0, 6);
+const serviceWords = ["A.I.", "3D DESIGN", "TOPOLOGY", "PRINTING"];
 
 function ServiceGlyph({ index }: { index: number }) {
   const glyphs = ["|||", "◎", "▦", ")(", "◉", "≋"];
@@ -66,19 +67,38 @@ function ServiceGlyph({ index }: { index: number }) {
 
 function ServicesScene({ progress, frame }: { progress: number; frame: number }) {
   const darkReveal = clamp(progress / 0.12);
-  const cardsProgress = clamp((progress - 0.5) / 0.5);
+  const wordsScatter = clamp((progress - 0.22) / 0.25);
+  const cardsProgress = clamp((progress - 0.46) / 0.54);
+  const wordStyles = useMemo(
+    () => serviceWords.map((word, row) => Array.from(word).map((_, column) => {
+      const center = (word.length - 1) / 2;
+      const direction = column % 2 === 0 ? -1 : 1;
+      const x = ((column - center) * 3.4 + direction * (3.2 + row * 0.55)) * wordsScatter;
+      const y = ((((column + row) % 3) - 1) * (8.5 + row * 1.2) + (row - 1.5) * 3.4) * wordsScatter;
+      const rotation = direction * (9 + column * 2.7 + row * 2) * wordsScatter;
+      const scale = 1 - wordsScatter * (0.08 + (column % 3) * 0.035);
+      return {
+        transform: `translate3d(${x.toFixed(2)}vw, ${y.toFixed(2)}vh, 0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`,
+      };
+    })),
+    [wordsScatter],
+  );
   const cardStyles = useMemo(
     () => services.map((_, index) => {
       const pair = Math.floor(index / 2);
       const side = index % 2 === 0 ? -1 : 1;
-      const local = clamp((cardsProgress - pair * 0.22) / 0.42);
-      const opacity = Math.sin(local * Math.PI);
-      const y = 112 - local * 155;
-      const arc = Math.sin(local * Math.PI) * 10;
-      const x = side < 0 ? -30 + local * 39 - arc : 100 - local * 40 + arc;
+      const local = clamp((cardsProgress - pair * 0.28) / 0.44);
+      const enter = clamp(local / 0.14);
+      const leave = clamp((1 - local) / 0.14);
+      const arc = Math.sin(local * Math.PI);
+      const opacity = enter * leave;
+      const y = 80 - local * 60;
+      const x = side < 0 ? 20 + arc * 4 : 80 - arc * 4;
+      const rotation = side * (3 - arc * 5);
+      const scale = 0.94 + arc * 0.06;
       return {
         opacity,
-        transform: `translate3d(${x.toFixed(2)}vw, ${y.toFixed(2)}vh, 0)`,
+        transform: `translate3d(calc(${x.toFixed(2)}vw - 50%), calc(${y.toFixed(2)}vh - 50%), 0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`,
       };
     }),
     [cardsProgress],
@@ -102,11 +122,20 @@ function ServicesScene({ progress, frame }: { progress: number; frame: number })
       />
       <div className="tkf-services-white-cover" style={{ opacity: 1 - darkReveal }} />
       <p className="tkf-services-label">TRIPO AI 3D WORKFLOW</p>
-      <div className="tkf-services-words" aria-hidden="true">
-        <span>A.I.</span>
-        <span>3D Design</span>
-        <span>Topology</span>
-        <span>Printing</span>
+      <div
+        className="tkf-services-words"
+        aria-hidden="true"
+        style={{ opacity: 1 - wordsScatter }}
+      >
+        {serviceWords.map((word, row) => (
+          <span className="tkf-service-word" key={word}>
+            {Array.from(word).map((character, column) => (
+              <i key={`${word}-${column}`} style={wordStyles[row][column]}>
+                {character === " " ? "\u00a0" : character}
+              </i>
+            ))}
+          </span>
+        ))}
       </div>
       <div className="tkf-service-cards">
         {services.map((service, index) => (
