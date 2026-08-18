@@ -7,7 +7,7 @@
 /* ---------- Dark statement ---------- */
 .flow-statement-shell{
   position:relative!important;
-  height:154vh!important;
+  height:270vh!important;
   min-height:0!important;
   background:#080909!important;
 }
@@ -176,35 +176,27 @@
   position:absolute;
   z-index:12;
   inset:0;
+  display:grid;
+  grid-template-rows:repeat(6,1fr);
   overflow:hidden;
-  pointer-events:none
+  pointer-events:none;
+  background:transparent
 }
 .flow-blind{
-  position:absolute;
-  left:0;
-  right:0;
-  min-height:2px;
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:0;
   background:#ecece9;
-  border-top:1px solid rgba(45,45,43,.16);
-  border-bottom:1px solid rgba(45,45,43,.10);
-  transform-origin:center bottom;
-  will-change:transform,height
+  border:0;
+  transform-origin:center;
+  will-change:transform,opacity
 }
-
-/* First appears as a hairline near the lower viewport, then grows into a band. */
-.flow-blind-main{
-  bottom:4.5vh;
-  background:#ededeb
-}
-/* Secondary blades follow, preserving the black gaps visible in the reference. */
-.flow-blind-2{
-  bottom:25.5vh;
-  background:#f1f1ee
-}
-.flow-blind-3{
-  bottom:46.5vh;
-  background:#e5e5e2
-}
+.flow-blind:nth-child(2),
+.flow-blind:nth-child(4),
+.flow-blind:nth-child(6){background:#f1f1ee}
+.flow-blind:nth-child(3),
+.flow-blind:nth-child(5){background:#e7e7e4}
 
 /* ---------- Key Facts: start immediately after the blind transition ---------- */
 .flow-facts-shell{
@@ -212,7 +204,7 @@
   z-index:0;
   height:124vh!important;
   min-height:0!important;
-  margin-top:-7vh!important;
+  margin-top:-1px!important;
   padding:0!important;
   background:#e7e7e4!important;
   color:#3b3b39!important
@@ -380,7 +372,7 @@
   .flow-fact-circle strong{font-size:38px}
 }
 @media(max-width:900px){
-  .flow-statement-shell{height:148vh!important}
+  .flow-statement-shell{height:230vh!important}
   .flow-statement-headline{left:18px;right:18px;top:19vh}
   .flow-statement-headline h2{
     width:100%!important;
@@ -396,7 +388,7 @@
 
   .flow-facts-shell{
     height:170vh!important;
-    margin-top:-5vh!important
+    margin-top:-1px!important
   }
   .flow-facts-heading{top:9vh;width:88vw}
   .flow-facts-heading h2{font-size:clamp(48px,11vw,68px)!important}

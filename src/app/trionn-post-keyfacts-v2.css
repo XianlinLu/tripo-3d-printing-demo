@@ -81,6 +81,7 @@
 .tkf-underline-link:hover:after{transform:translateX(105%)}
 .tkf-underline-link:hover:before{transform:translateX(0);transition-delay:90ms}
 .tkf-underline-link i{font-style:normal}
+.tkf-underline-link:hover{color:var(--yellow,#f9cf00)}
 .tkf-project-inner{width:100%;padding:64px 80px;will-change:transform,opacity}
 .tkf-project-image{position:relative;display:block;width:100%;aspect-ratio:670/460;overflow:hidden;border-radius:8px;background:#ccc}
 .tkf-project-image img{width:100%;height:100%;display:block;object-fit:cover;transition:transform 700ms cubic-bezier(.2,.7,.2,1)}
@@ -160,7 +161,8 @@
 .tkf-stories-top p{grid-column:9/span 3;margin:0;font-size:17px;line-height:1.1}
 .tkf-story-body{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:16vh}
 .tkf-story-tabs{grid-column:1/span 3;display:flex;flex-direction:column;align-items:flex-start;gap:16px}
-.tkf-story-tabs button{border:0;background:transparent;color:var(--tkf-text);font-family:"TKF Martian",monospace;font-size:9px;opacity:.38;text-align:left;text-transform:uppercase;cursor:pointer}
+.tkf-story-tabs button{border:0;background:transparent;color:var(--tkf-text);font-family:"TKF Martian",monospace;font-size:9px;opacity:.38;text-align:left;text-transform:uppercase;cursor:pointer;transition:color 180ms ease,opacity 180ms ease}
+.tkf-story-tabs button:hover{color:var(--yellow,#f9cf00);opacity:1}
 .tkf-story-tabs button.is-active{opacity:1}
 .tkf-story-quote{grid-column:7/span 5}
 .tkf-story-quote blockquote{min-height:170px;margin:0;font-family:"TKF Familjen",sans-serif;font-size:32px;line-height:1.02;letter-spacing:-.035em}
@@ -194,8 +196,8 @@
   position:absolute;
   top:50%;
   left:50%;
-  width:clamp(220px,18vw,300px);
-  aspect-ratio:1.46;
+  width:clamp(210px,16vw,280px);
+  aspect-ratio:3/4;
   margin:0;
   overflow:hidden;
   border-radius:5px;
@@ -206,10 +208,15 @@
   transform-style:preserve-3d;
   will-change:transform,opacity;
 }
-.tkf-motion-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 35%;transition:transform 600ms cubic-bezier(.2,.8,.2,1)}
+.tkf-motion-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 38%;filter:saturate(1.12) contrast(1.04);transition:transform 600ms cubic-bezier(.2,.8,.2,1),filter 600ms ease}
 .tkf-motion-card:hover img{transform:scale(1.05)}
+.tkf-motion-card:nth-child(2) img{object-position:center 30%}
+.tkf-motion-card:nth-child(3) img{object-position:center 48%}
+.tkf-motion-card:nth-child(4) img{object-position:center 34%}
+.tkf-motion-card:nth-child(5) img{object-position:center 42%}
 .tkf-motion-sticky>p{position:absolute;bottom:48px;left:40px;z-index:12;width:260px;margin:0;font-size:16px;line-height:1.08;transition:opacity 100ms linear}
 .tkf-motion-sticky>.tkf-text-link{position:absolute;right:40px;bottom:48px;left:auto;z-index:12;display:inline-flex;min-width:250px;justify-content:space-between;padding:11px 0;border-bottom:1px solid currentColor;font-family:"TKF Martian",monospace;font-size:10px;text-transform:uppercase;transition:opacity 100ms linear}
+.tkf-motion-sticky>.tkf-text-link:hover{color:var(--yellow,#f9cf00)}
 
 .tkf-footer{position:relative;min-height:108vh;overflow:hidden;padding:116px 40px 28px;background:var(--tkf-black);color:var(--tkf-light)}
 .tkf-footer:before{position:absolute;inset:0;opacity:.13;background-image:radial-gradient(rgb(255 255 255 / 18%) .45px,transparent .6px);background-size:4px 4px;content:"";pointer-events:none}
@@ -229,6 +236,8 @@
 .tkf-footer-brand img{width:112px;height:auto;filter:brightness(0) invert(1)}
 .tkf-footer-brand p{max-width:260px;color:#8c8e8d}
 .tkf-footer-end{position:relative;z-index:2;display:flex;justify-content:space-between;margin-top:72px;font-family:"TKF Martian",monospace;font-size:9px;text-transform:uppercase}
+.tkf-footer a{transition:color 180ms ease,border-color 180ms ease}
+.tkf-footer a:hover{color:var(--yellow,#f9cf00);border-color:var(--yellow,#f9cf00)}
 
 @media(prefers-reduced-motion:reduce){
   .tkf-project-image img,.tkf-motion-card img{transition-duration:.01ms}
