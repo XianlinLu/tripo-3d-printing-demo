@@ -32,11 +32,11 @@ const stories = [
 ];
 
 const motionImages = [
-  TRIPO_ASSETS.caseJewelry,
-  TRIPO_ASSETS.serviceInput,
-  TRIPO_ASSETS.caseSculpture,
-  TRIPO_ASSETS.servicePrint,
-  TRIPO_ASSETS.caseMiniature,
+  { src: TRIPO_ASSETS.factModel, alt: "Stylized TRIPO character portrait" },
+  { src: TRIPO_ASSETS.workflowLeft, alt: "Colorful TRIPO fantasy character" },
+  { src: TRIPO_ASSETS.serviceTopology, alt: "Detailed TRIPO fantasy fish model" },
+  { src: TRIPO_ASSETS.factTexture, alt: "TRIPO cinematic character model" },
+  { src: TRIPO_ASSETS.workflowRight, alt: "TRIPO armored creature model" },
 ];
 
 function MotionSection() {
@@ -80,8 +80,8 @@ function MotionSection() {
         <div className="tkf-motion-orbit" style={{ opacity: ribbonOpacity * 0.72 }} aria-hidden="true" />
         <div className="tkf-motion-ribbon">
           {motionImages.map((image, index) => (
-            <figure className="tkf-motion-card" key={`${image}-${index}`} style={cardStyles[index]}>
-              <img src={image} alt="TRIPO AI-generated 3D project" />
+            <figure className="tkf-motion-card" key={image.src} style={cardStyles[index]}>
+              <img src={image.src} alt={image.alt} loading="lazy" />
             </figure>
           ))}
         </div>
