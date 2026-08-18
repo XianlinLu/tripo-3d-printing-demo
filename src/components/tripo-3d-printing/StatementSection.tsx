@@ -84,14 +84,10 @@ export function StatementSection() {
   const marqueeIn = smooth((p - 0.43) / 0.10);
   const marqueeRunning = p >= 0.48;
 
-  // Transition starts only after the marquee is already established.
-  const wipe = clamp01((p - 0.84) / 0.15);
-
-  // Video timing: hairline -> thicker band -> additional blinds -> Key Facts.
-  const lineIn = smooth(wipe / 0.20);
-  const bandGrow = smooth((wipe - 0.12) / 0.42);
-  const blind2 = smooth((wipe - 0.34) / 0.34);
-  const blind3 = smooth((wipe - 0.52) / 0.30);
+  // TRIONN-style venetian transition: six hairlines appear in sequence and
+  // expand inside their own rows until the light Key Facts canvas is complete.
+  const wipe = smooth((p - 0.78) / 0.22);
+  const blindDelays = [0, 0.055, 0.11, 0.165, 0.22, 0.275];
 
   const line1 = statement.line1;
   const secondWords = wordsOf(statement.line2);
@@ -206,27 +202,20 @@ export function StatementSection() {
         </div>
 
         <div className="flow-venetian-transition" aria-hidden="true">
-          <i
-            className="flow-blind flow-blind-main"
-            style={{
-              height: `calc(2px + ${bandGrow * 10.5}vh)`,
-              transform: `translate3d(0,${(1 - lineIn) * 110}vh,0)`,
-            }}
-          />
-          <i
-            className="flow-blind flow-blind-2"
-            style={{
-              height: `calc(2px + ${blind2 * 8.8}vh)`,
-              transform: `translate3d(0,${(1 - blind2) * 110}vh,0)`,
-            }}
-          />
-          <i
-            className="flow-blind flow-blind-3"
-            style={{
-              height: `calc(2px + ${blind3 * 7.2}vh)`,
-              transform: `translate3d(0,${(1 - blind3) * 110}vh,0)`,
-            }}
-          />
+          {blindDelays.map((delay, index) => {
+            const blade = smooth((wipe - delay) / 0.55);
+            const line = smooth((wipe - delay) / 0.035);
+            return (
+              <i
+                className="flow-blind"
+                key={`blind-${index}`}
+                style={{
+                  opacity: line,
+                  transform: `scaleY(${Math.max(0.008, blade)})`,
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
