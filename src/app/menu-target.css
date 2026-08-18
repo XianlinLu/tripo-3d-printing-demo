@@ -170,7 +170,7 @@
   transition:color .18s ease,transform .18s ease!important;
 }
 .menu-overlay.menu-drawer-overlay .menu-drawer-nav a:hover{
-  color:#080909!important;
+  color:var(--yellow,#f9cf00)!important;
   transform:translateX(4px)!important;
 }
 
@@ -242,6 +242,19 @@
   max-width:270px!important;
   margin:0!important;
   padding:0!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-block > a,
+.menu-overlay.menu-drawer-overlay .menu-resource-grid a,
+.menu-overlay.menu-drawer-overlay .menu-story-pill,
+.menu-overlay.menu-drawer-overlay .menu-drawer-cta{
+  transition:color .18s ease,border-color .18s ease!important;
+}
+.menu-overlay.menu-drawer-overlay .menu-drawer-block > a:hover,
+.menu-overlay.menu-drawer-overlay .menu-resource-grid a:hover,
+.menu-overlay.menu-drawer-overlay .menu-story-pill:hover,
+.menu-overlay.menu-drawer-overlay .menu-drawer-cta:hover{
+  color:var(--yellow,#f9cf00)!important;
+  border-color:var(--yellow,#f9cf00)!important;
 }
 
 /* At desktop widths keep the proportions rigid like the target reference. */
