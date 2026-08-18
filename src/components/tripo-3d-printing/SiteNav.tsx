@@ -45,7 +45,12 @@ export function SiteNav() {
             aria-expanded={open}
             aria-label="Open menu"
           >
-            MENU <i /><i />
+            <span className="menu-pill-label">MENU</span>
+            <span className="menu-pill-icon" aria-hidden="true">
+              <svg viewBox="0 0 12 10">
+                <path d="M1 1.5H11 M1 5H11 M1 8.5H11" />
+              </svg>
+            </span>
           </button>
         </div>
       </header>
@@ -70,7 +75,12 @@ export function SiteNav() {
               onClick={() => setOpen(false)}
               aria-label="Close menu"
             >
-              MENU <span aria-hidden="true">×</span>
+              <span className="menu-drawer-close-label">MENU</span>
+              <span className="menu-drawer-close-icon" aria-hidden="true">
+                <svg viewBox="0 0 14 14">
+                  <path d="M2 2L12 12 M12 2L2 12" />
+                </svg>
+              </span>
             </button>
           </div>
 
