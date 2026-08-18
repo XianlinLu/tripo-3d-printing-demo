@@ -33,6 +33,10 @@ type FloatRecord = {
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - clamp(t), 3);
+const smooth = (v: number) => {
+  const t = clamp(v);
+  return t * t * (3 - 2 * t);
+};
 
 
 type LogoFragment = {
@@ -811,10 +815,10 @@ export function HeroSymbolScene() {
       intro = clamp((now - started - 250) / 1150);
 
       const scrollProgress = getHeroProgress();
-      const scrollExplode =
-        scrollProgress < 0.18
-          ? 0
-          : clamp((scrollProgress - 0.18) / 0.68) * 0.78;
+      // TRIONN journey: begin as one complete mark, then progressively release
+      // every plate until the silhouette is fully scattered at the section handoff.
+      const scrollExplode = smooth((scrollProgress - 0.1) / 0.58);
+      const handoff = smooth((scrollProgress - 0.82) / 0.18);
 
       if (!holding) {
         rotY += matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -864,21 +868,17 @@ export function HeroSymbolScene() {
       const blastPitch =
         Math.cos(t * 0.37) * 0.1 * clickBurst;
 
+      const freeRotationX = rotX + pointerY + blastPitch;
+      const freeRotationY =
+        rotY + pointerX + Math.sin(t * 0.31) * 0.14 * clickBurst;
+
       group.rotation.x +=
-        (
-          rotX +
-          pointerY +
-          blastPitch -
-          group.rotation.x
-        ) * 0.06;
+        (lerp(freeRotationX, -0.035, handoff) - group.rotation.x) *
+        (0.06 + handoff * 0.34);
 
       group.rotation.y +=
-        (
-          rotY +
-          pointerX +
-          Math.sin(t * 0.31) * 0.14 * clickBurst -
-          group.rotation.y
-        ) * 0.06;
+        (lerp(freeRotationY, -0.16, handoff) - group.rotation.y) *
+        (0.06 + handoff * 0.34);
 
       group.rotation.z =
         -0.06 +
@@ -1021,17 +1021,20 @@ export function HeroSymbolScene() {
         const floatX =
           Math.sin(t * 0.55 + panel.seed) *
           0.22 *
-          localAmt;
+          localAmt *
+          (1 - handoff);
 
         const floatY =
           Math.cos(t * 0.48 + panel.seed * 0.82) *
           0.18 *
-          localAmt;
+          localAmt *
+          (1 - handoff);
 
         const floatZ =
           Math.sin(t * 0.41 + panel.seed * 1.3) *
           0.28 *
-          localAmt;
+          localAmt *
+          (1 - handoff);
 
         const magnet =
           hovered === panel.mesh ? 0.06 : 0;
@@ -1066,21 +1069,24 @@ export function HeroSymbolScene() {
               continuedSpin +
             Math.sin(t * 0.34 + panel.seed) *
               0.12 *
-              localAmt,
+              localAmt *
+              (1 - handoff),
           panel.baseRot.y +
             panel.spinAxis.y *
               panel.spinSpeed *
               continuedSpin +
             Math.cos(t * 0.29 + panel.seed) *
               0.11 *
-              localAmt,
+              localAmt *
+              (1 - handoff),
           panel.baseRot.z +
             panel.spinAxis.z *
               panel.spinSpeed *
               continuedSpin +
             Math.sin(t * 0.37 + panel.seed) *
               0.14 *
-              localAmt
+              localAmt *
+              (1 - handoff)
         );
 
         panel.edges.position.copy(

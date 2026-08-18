@@ -17,6 +17,8 @@ type FragmentRecord = {
   baseRot: THREE.Euler;
   explodeDir: THREE.Vector3;
   spin: THREE.Vector3;
+  spinSpeed: number;
+  delay: number;
   seed: number;
 };
 
@@ -95,7 +97,7 @@ export function StatementLogoScene({ progress }: { progress: number }) {
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.72;
+    renderer.toneMappingExposure = 0.82;
     renderer.domElement.className = "flow-statement-logo-canvas";
     mount.appendChild(renderer.domElement);
 
@@ -103,19 +105,26 @@ export function StatementLogoScene({ progress }: { progress: number }) {
     const env = pmrem.fromScene(new RoomEnvironment(), 0.05).texture;
     scene.environment = env;
 
-    scene.add(new THREE.HemisphereLight(0x738399, 0x010203, 0.75));
+    scene.add(new THREE.HemisphereLight(0x9cb1d3, 0x020203, 1.05));
 
-    const key = new THREE.DirectionalLight(0xdbe3f2, 3.2);
-    key.position.set(3.4, 4.8, 6.8);
+    const key = new THREE.DirectionalLight(0xffffff, 5.5);
+    key.position.set(3.2, 4.8, 7);
     scene.add(key);
 
-    const warm = new THREE.PointLight(0xf9cf00, 28, 6.4, 1.6);
-    warm.position.set(-0.55, 0.55, 1.45);
+    const cool = new THREE.DirectionalLight(0x294a86, 3.8);
+    cool.position.set(-5, 1.5, -1.5);
+    scene.add(cool);
+
+    const warm = new THREE.PointLight(0xf9cf00, 34, 6.5, 1.5);
+    warm.position.set(-0.55, 0.55, 1.5);
     scene.add(warm);
 
     const group = new THREE.Group();
-    group.position.set(0.35, -0.08, 0);
-    group.rotation.set(-0.03, -0.16, -0.025);
+    // Matches the deterministic end pose of the hero scene so the two pinned
+    // sections read as one uninterrupted model journey.
+    group.position.set(0.96, -0.7, -0.35);
+    group.rotation.set(-0.035, -0.16, 0.48);
+    group.scale.setScalar(0.88);
     scene.add(group);
 
     const fragments: FragmentRecord[] = [];
@@ -126,14 +135,18 @@ export function StatementLogoScene({ progress }: { progress: number }) {
       const geometry = polygonGeometry(fragment.points, depth);
 
       const material = new THREE.MeshPhysicalMaterial({
-        color: hot ? 0x14120a : 0x07090c,
-        emissive: hot ? 0x7a3b00 : 0x000000,
-        emissiveIntensity: hot ? 0.16 : 0,
-        metalness: hot ? 0.86 : 0.97,
-        roughness: hot ? 0.18 : 0.12,
+        color: hot ? 0xf9cf00 : 0x080a0d,
+        emissive: hot ? 0x5b4300 : 0x000000,
+        emissiveIntensity: hot ? 0.34 : 0,
+        metalness: hot ? 0.82 : 0.97,
+        roughness: hot ? 0.16 : 0.11,
         clearcoat: 1,
-        clearcoatRoughness: 0.03,
-        envMapIntensity: hot ? 2.3 : 2.9,
+        clearcoatRoughness: hot ? 0.035 : 0.025,
+        envMapIntensity: hot ? 2.9 : 3.25,
+        reflectivity: 1,
+        transmission: hot ? 0.01 : 0.025,
+        thickness: hot ? 0.2 : 0.38,
+        ior: hot ? 1.46 : 1.5,
         transparent: true,
         opacity: 1,
       });
@@ -149,9 +162,9 @@ export function StatementLogoScene({ progress }: { progress: number }) {
       group.add(mesh);
 
       const edgeMat = new THREE.LineBasicMaterial({
-        color: hot ? 0xff9a30 : 0x596574,
+        color: hot ? 0xffdc42 : 0x74808d,
         transparent: true,
-        opacity: hot ? 0.28 : 0.22,
+        opacity: hot ? 0.42 : 0.3,
       });
 
       const edges = new THREE.LineSegments(
@@ -163,10 +176,14 @@ export function StatementLogoScene({ progress }: { progress: number }) {
       group.add(edges);
 
       const outward = new THREE.Vector3(
-        x + Math.sin((index + 1) * 1.71) * 1.25,
-        y + Math.cos((index + 1) * 1.33) * 1.05,
-        0.55 + Math.sin((index + 1) * 0.88)
+        x,
+        y,
+        mesh.position.z + 0.32
       ).normalize();
+      outward.x += Math.sin((index + 1) * 2.17) * 0.46;
+      outward.y += Math.cos((index + 1) * 1.73) * 0.38;
+      outward.z += Math.sin((index + 1) * 0.87) * 0.84;
+      outward.normalize();
 
       fragments.push({
         mesh,
@@ -175,10 +192,12 @@ export function StatementLogoScene({ progress }: { progress: number }) {
         baseRot: mesh.rotation.clone(),
         explodeDir: outward,
         spin: new THREE.Vector3(
-          Math.sin(index * 1.17 + 0.2),
-          Math.cos(index * 0.91 + 0.5),
-          Math.sin(index * 0.67 + 0.9)
+          Math.sin(index * 1.31 + 0.3),
+          Math.cos(index * 0.93 + 0.7),
+          Math.sin(index * 0.61 + 1.1)
         ).normalize(),
+        spinSpeed: 0.76 + (index % 5) * 0.16,
+        delay: (index % 7) * 0.018,
         seed: (index + 1) * 1.61803398875,
       });
     });
@@ -202,16 +221,16 @@ export function StatementLogoScene({ progress }: { progress: number }) {
       const t = clock.getElapsedTime();
       const p = progressRef.current;
 
-      // Keep the logo intact when this section first arrives.
-      // Phase 1: enter TURN VISION with the normal assembled logo.
-      // Phase 2: scatter only while the statement / TURN VISION copy is traversed.
-      const scatterIn = smooth((p - 0.13) / 0.24);
-
-      // Phase 3: as the large PRINT / ITERATE / IMPACT marquee stage arrives,
-      // reassemble the fragments back to the default logo.
-      const reassemble = smooth((p - 0.48) / 0.18);
-      const scattered = scatterIn * (1 - reassemble);
+      // Continue from the hero's fully scattered handoff. Fragments stay around
+      // the viewport while the statement is read, then magnetise back together
+      // exactly as the IMPACT / INSPIRE / INNOVATE ribbon arrives.
+      const reassemble = smooth((p - 0.38) / 0.16);
+      const scattered = 1 - reassemble;
       const assemble = 1 - scattered;
+
+      // Once assembled, the complete mark performs the pronounced 3D rotation
+      // seen in the reference instead of merely idling in place.
+      const orbit = smooth((p - 0.5) / 0.32);
 
       // Hold the fully assembled logo behind the auto-moving marquee.
       // Fade it only when the venetian-blind transition actually begins.
@@ -219,43 +238,75 @@ export function StatementLogoScene({ progress }: { progress: number }) {
       const fade = 1 - smooth((p - shutterStart) / 0.05);
 
       group.visible = fade > 0.002;
-      group.position.x = 0.35 + Math.sin(t * 0.24) * 0.03;
-      group.position.y = -0.08 + Math.cos(t * 0.21) * 0.025;
-      group.rotation.x = -0.03 + Math.sin(t * 0.18) * 0.018;
-      group.rotation.y = -0.16 + Math.sin(t * 0.15) * 0.055;
-      group.rotation.z = -0.025 + Math.cos(t * 0.16) * 0.014;
-      group.scale.setScalar(1.02);
+      group.position.x =
+        THREE.MathUtils.lerp(0.96, 0.35, reassemble) +
+        Math.sin(t * 0.24) * 0.018 * assemble;
+      group.position.y =
+        THREE.MathUtils.lerp(-0.7, -0.08, reassemble) +
+        Math.cos(t * 0.21) * 0.014 * assemble;
+      group.position.z = THREE.MathUtils.lerp(-0.35, 0, reassemble);
+      group.rotation.x =
+        THREE.MathUtils.lerp(-0.035, -0.03, reassemble) +
+        Math.sin(orbit * Math.PI * 2) * 0.24;
+      group.rotation.y = THREE.MathUtils.lerp(
+        -0.16,
+        -0.16 + orbit * Math.PI * 4,
+        reassemble
+      );
+      group.rotation.z =
+        THREE.MathUtils.lerp(0.48, -0.025, reassemble) +
+        Math.sin(orbit * Math.PI * 4) * 0.08;
+      group.scale.setScalar(THREE.MathUtils.lerp(0.88, 1.02, reassemble));
 
-      fragments.forEach((fragment, index) => {
-        const distance = scattered * (2.8 + (index % 5) * 0.34);
-        const drift = scattered * 0.16;
+      fragments.forEach((fragment) => {
+        const localAmt = Math.max(0, scattered - fragment.delay);
+        const distance =
+          localAmt * (6.25 + Math.sin(fragment.seed * 1.41) * 1.1);
+        const driftIn = smooth(p / 0.08);
+        const floatX =
+          Math.sin(t * 0.55 + fragment.seed) * 0.22 * localAmt * driftIn;
+        const floatY =
+          Math.cos(t * 0.48 + fragment.seed * 0.82) *
+          0.18 *
+          localAmt *
+          driftIn;
+        const floatZ =
+          Math.sin(t * 0.41 + fragment.seed * 1.3) *
+          0.28 *
+          localAmt *
+          driftIn;
 
         fragment.mesh.position.set(
           fragment.base.x +
             fragment.explodeDir.x * distance +
-            Math.sin(t * 0.34 + fragment.seed) * drift,
+            floatX,
           fragment.base.y +
             fragment.explodeDir.y * distance +
-            Math.cos(t * 0.29 + fragment.seed * 0.74) * drift,
+            floatY,
           fragment.base.z +
-            fragment.explodeDir.z * distance * 0.72 +
-            Math.sin(t * 0.25 + fragment.seed * 1.12) * drift
+            fragment.explodeDir.z * distance +
+            floatZ
         );
 
         fragment.mesh.rotation.set(
-          fragment.baseRot.x + fragment.spin.x * scattered * 1.8,
-          fragment.baseRot.y + fragment.spin.y * scattered * 1.8,
-          fragment.baseRot.z + fragment.spin.z * scattered * 1.8
+          fragment.baseRot.x +
+            fragment.spin.x * fragment.spinSpeed * localAmt * Math.PI,
+          fragment.baseRot.y +
+            fragment.spin.y * fragment.spinSpeed * localAmt * Math.PI,
+          fragment.baseRot.z +
+            fragment.spin.z * fragment.spinSpeed * localAmt * Math.PI
         );
 
         fragment.mesh.material.opacity = fade;
         fragment.edges.position.copy(fragment.mesh.position);
         fragment.edges.rotation.copy(fragment.mesh.rotation);
         fragment.edges.material.opacity =
-          fade * (fragment.mesh.material.emissiveIntensity > 0 ? 0.28 : 0.20);
+          fade * (fragment.mesh.material.emissiveIntensity > 0 ? 0.42 : 0.3);
       });
 
-      warm.intensity = 18 + assemble * 10;
+      warm.position.x = -0.5 + Math.sin(t * 0.55) * 0.9;
+      warm.position.y = 0.4 + Math.cos(t * 0.42) * 0.55;
+      warm.intensity = 22 + assemble * 12;
       renderer.render(scene, camera);
     });
 
