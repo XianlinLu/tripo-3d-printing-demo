@@ -4,6 +4,17 @@
 
 .site-nav{position:fixed!important}
 
+/* Keep the 3D mark on the viewport while only the hero copy exits. This lets
+   the scattered fragments hand off cleanly to the following pinned scene. */
+.hero-ui-stage{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  transform-origin:58% 48%;
+  will-change:transform,opacity;
+  pointer-events:none;
+}
+
 /* ---------- Dark statement ---------- */
 .flow-statement-shell{
   position:relative!important;
