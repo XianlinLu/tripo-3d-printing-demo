@@ -1,24 +1,10 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
 
 const footerLetters = ["T", "R", "I", "P", "O"];
 
 export function FooterSection() {
-  const [time, setTime] = useState("--:--");
-
-  useEffect(() => {
-    const update = () => setTime(new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Asia/Tokyo",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    }).format(new Date()));
-    update();
-    const timer = window.setInterval(update, 30_000);
-    return () => window.clearInterval(timer);
-  }, []);
-
   return (
     <footer id="footer" className="trionn-footer">
       <div className="trionn-footer-smoke trionn-footer-smoke-a" />
@@ -27,7 +13,6 @@ export function FooterSection() {
 
       <div className="trionn-footer-topline">
         <span>LET&apos;S BUILD WHAT&apos;S NEXT IN 3D.</span>
-        <span>JST → {time}</span>
       </div>
 
       <h2>Ready to build<br />something bold?</h2>
