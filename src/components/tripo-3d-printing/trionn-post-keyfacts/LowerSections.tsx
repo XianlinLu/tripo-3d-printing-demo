@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { cases, SITE, TRIPO_ASSETS } from "../content";
 import { useScrollProgress } from "../useScrollProgress";
 
@@ -102,20 +102,7 @@ function MotionSection() {
 
 export function LowerSections() {
   const [story, setStory] = useState(0);
-  const [time, setTime] = useState("--:--");
   const active = stories[story];
-
-  useEffect(() => {
-    const update = () => setTime(new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Asia/Tokyo",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    }).format(new Date()));
-    update();
-    const timer = window.setInterval(update, 30_000);
-    return () => window.clearInterval(timer);
-  }, []);
 
   return (
     <>
@@ -153,7 +140,7 @@ export function LowerSections() {
       <footer id="footer" className="tkf-footer">
         <div className="tkf-footer-glow tkf-footer-glow-a" />
         <div className="tkf-footer-glow tkf-footer-glow-b" />
-        <div className="tkf-footer-topline"><span>LET&apos;S BUILD WHAT&apos;S NEXT IN 3D.</span><span>JST → {time}</span></div>
+        <div className="tkf-footer-topline"><span>LET&apos;S BUILD WHAT&apos;S NEXT IN 3D.</span></div>
         <div className="tkf-footer-lead">
           <h2>Ready to build<br />something bold?</h2>
           <a className="tkf-footer-button" href="https://studio.tripo3d.ai/" target="_blank" rel="noreferrer">

@@ -4,8 +4,29 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { cases, helixCards } from "../content";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const STONE_FRAME_COUNT = 371;
 const clamp = (value: number, minimum = 0, maximum = 1) =>
   Math.max(minimum, Math.min(maximum, value));
+const smoothstep = (value: number) => {
+  const t = clamp(value);
+  return t * t * (3 - 2 * t);
+};
+
+function stoneFrameFromProgress(progress: number) {
+  // Match the reference rhythm: enter immediately, land decisively, then engrave.
+  // The old single linear mapping spent too long in the first/top-hanging frames.
+  if (progress <= 0.035) return 1;
+  if (progress < 0.285) {
+    return 1 + Math.round(smoothstep((progress - 0.035) / 0.25) * 184);
+  }
+  if (progress < 0.59) {
+    return 185 + Math.round(smoothstep((progress - 0.285) / 0.305) * 145);
+  }
+  if (progress < 0.72) {
+    return 330 + Math.round(smoothstep((progress - 0.59) / 0.13) * 41);
+  }
+  return STONE_FRAME_COUNT;
+}
 
 function UnderlineLink({ children, href }: { children: ReactNode; href: string }) {
   return (
@@ -189,6 +210,33 @@ export function WorkShowcase() {
     };
   }, []);
 
+  useEffect(() => {
+    // Warm the 14 MB frame sequence while the visitor is still above this section.
+    // Loading in small idle batches prevents the first pass from freezing on frame 1.
+    const images: HTMLImageElement[] = [];
+    let nextFrame = 1;
+    let idleHandle = 0;
+    let cancelled = false;
+    const preloadBatch = () => {
+      if (cancelled) return;
+      const batchEnd = Math.min(nextFrame + 15, STONE_FRAME_COUNT + 1);
+      for (; nextFrame < batchEnd; nextFrame += 1) {
+        const image = new Image();
+        image.decoding = "async";
+        image.src = `${BASE}/tripo/trionn-reference/stone/frame_${String(nextFrame).padStart(4, "0")}.webp`;
+        images.push(image);
+      }
+      if (nextFrame <= STONE_FRAME_COUNT) {
+        idleHandle = window.requestIdleCallback(preloadBatch, { timeout: 500 });
+      }
+    };
+    idleHandle = window.requestIdleCallback(preloadBatch, { timeout: 250 });
+    return () => {
+      cancelled = true;
+      window.cancelIdleCallback(idleHandle);
+    };
+  }, []);
+
   const horizontalEnd = 200 / 1350;
   const transitionEnd = 350 / 1350;
   const servicesEnd = 1150 / 1350;
@@ -196,7 +244,7 @@ export function WorkShowcase() {
   const transitionProgress = clamp((progress - horizontalEnd) / (transitionEnd - horizontalEnd));
   const servicesProgress = clamp((progress - transitionEnd) / (servicesEnd - transitionEnd));
   const trackShift = horizontalProgress * 150 + transitionProgress * 100;
-  const frame = Math.max(1, Math.min(371, Math.round(servicesProgress * 370) + 1));
+  const frame = stoneFrameFromProgress(servicesProgress);
 
   return (
     <section id="cases" ref={sectionRef} className="tkf-work-scroll">
